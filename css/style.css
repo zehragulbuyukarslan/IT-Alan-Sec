@@ -17,6 +17,7 @@ body {
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
+  background-image: url("../assets/futuristik.jpg");
 }
 
 .app {
