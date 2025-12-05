@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Yetenek Testi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f4f5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 640px;
+      margin: 32px 16px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px 20px 28px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+    }
+
+    p {
+      line-height: 1.5;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      background: #111827;
+      color: #f9fafb;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.24);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+    }
+
+    .btn[disabled] {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .question-card {
+      margin-top: 8px;
+      padding: 16px 14px;
+      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .question-text {
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.1s ease, transform 0.08s ease;
+    }
+
+    .option-label:hover {
+      background: #e5e7eb;
+      transform: translateY(-0.5px);
+    }
+
+    .option-label input {
+      accent-color: #111827;
+    }
+
+    .progress {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #6b7280;
+    }
+
+    .progress-bar {
+      margin-top: 6px;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: #111827;
+      transition: width 0.2s ease;
+    }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .error {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #b91c1c;
+    }
+
+    .result-box {
+      margin-top: 16px;
+      padding: 16px 14px;
+      border-radius: 12px;
+      background: #ecfdf3;
+      border: 1px solid #bbf7d0;
+      font-size: 0.95rem;
+    }
+
+    .result-highlight {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #eef2ff;
+      color: #3730a3;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .app {
+        margin: 16px 12px;
+        padding: 18px 14px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <!-- Giriş / Açıklama Bölümü -->
+    <section id="intro-section">
+      <h1>Yetenek Testi</h1>
+      <p>
+        Bu test, belirli yetkinlik alanlarındaki eğilimlerini ve güçlü yanlarını anlamaya yardımcı olmak için
+        tasarlanmıştır. Her soruda seni en iyi ifade eden seçeneği işaretle.
+      </p>
+      <p>
+        Toplam <strong>30 soru</strong> var ve ekranda her zaman yalnızca tek soru göreceksin.
+        Testin sonunda cevaplarına göre sana özel bir özet gösterilecek.
+      </p>
+      <button class="btn" id="start-btn">Testi Başlat</button>
+    </section>
+
+    <!-- Test Bölümü -->
+    <section id="quiz-section" class="hidden">
+      <div class="question-card">
+        <div id="question-text" class="question-text"></div>
+        <div id="options" class="options"></div>
+      </div>
+
+      <div class="progress">
+        <div id="progress-text">Soru 1 / 30</div>
+        <div id="percent-text">0%</div>
+      </div>
+      <div class="progress-bar">
+        <div id="progress-bar-inner" class="progress-bar-inner"></div>
+      </div>
+
+      <div id="error-message" class="error hidden"></div>
+
+      <div class="actions">
+        <button class="btn" id="next-btn">Sonraki soru</button>
+      </div>
+    </section>
+
+    <!-- Sonuç Bölümü -->
+    <section id="result-section" class="hidden">
+      <h1>Test Sonucun</h1>
+      <div class="result-box">
+        <div class="result-highlight" id="result-score"></div>
+        <div id="result-summary"></div>
+        <div id="result-tag" class="tag"></div>
+      </div>
+
+      <p style="margin-top: 16px; font-size: 0.9rem; color: #4b5563;">
+        Bu sonuç, testte verdiğin yanıtlara göre oluşturulmuş basit bir analizdir.
+        Kendi metodolojine göre puan aralıklarını ve açıklamaları rahatlıkla güncelleyebilirsin.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // 30 soruyu programatik olarak oluşturuyoruz.
+    // Buradaki metinleri kendi gerçek sorularınla değiştirebilirsin.
+    const questions = Array.from({ length: 30 }, (_, i) => ({
+      id: i + 1,
+      text: `Soru ${i + 1}: Buraya kendi soru metnini yaz.`,
+      // İstersen her soru için farklı seçenekler de verebilirsin.
+      options: [
+        { label: "Hiç katılmıyorum", value: 1 },
+        { label: "Katılmıyorum", value: 2 },
+        { label: "Kararsızım", value: 3 },
+        { label: "Katılıyorum", value: 4 },
+        { label: "Tamamen katılıyorum", value: 5 },
+      ],
+    }));
+
+    const introSection = document.getElementById("intro-section");
+    const quizSection = document.getElementById("quiz-section");
+    const resultSection = document.getElementById("result-section");
+
+    const questionTextEl = document.getElementById("question-text");
+    const optionsEl = document.getElementById("options");
+    const progressTextEl = document.getElementById("progress-text");
+    const percentTextEl = document.getElementById("percent-text");
+    const progressBarInnerEl = document.getElementById("progress-bar-inner");
+    const errorMessageEl = document.getElementById("error-message");
+
+    const startBtn = document.getElementById("start-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    const resultScoreEl = document.getElementById("result-score");
+    const resultSummaryEl = document.getElementById("result-summary");
+    const resultTagEl = document.getElementById("result-tag");
+
+    let currentQuestionIndex = 0;
+    const answers = new Array(questions.length).fill(null);
+
+    function startTest() {
+      introSection.classList.add("hidden");
+      resultSection.classList.add("hidden");
+      quizSection.classList.remove("hidden");
+      currentQuestionIndex = 0;
+      for (let i = 0; i < answers.length; i++) answers[i] = null;
+      renderQuestion();
+      updateProgress();
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQuestionIndex];
+      questionTextEl.textContent = q.text;
+
+      optionsEl.innerHTML = "";
+
+      q.options.forEach((opt, index) => {
+        const id = `q${q.id}_opt${index}`;
+        const label = document.createElement("label");
+        label.className = "option-label";
+        label.setAttribute("for", id);
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "option";
+        input.id = id;
+        input.value = opt.value;
+
+        // Önceden seçilmişse işaretli göster
+        if (answers[currentQuestionIndex] === opt.value) {
+          input.checked = true;
+        }
+
+        const span = document.createElement("span");
+        span.textContent = opt.label;
+
+        label.appendChild(input);
+        label.appendChild(span);
+        optionsEl.appendChild(label);
+      });
+
+      errorMessageEl.classList.add("hidden");
+      errorMessageEl.textContent = "";
+    }
+
+    function updateProgress() {
+      const questionNumber = currentQuestionIndex + 1;
+      const totalQuestions = questions.length;
+      progressTextEl.textContent = `Soru ${questionNumber} / ${totalQuestions}`;
+
+      const answeredCount = answers.filter((v) => v !== null).length;
+      const percentage = Math.round((answeredCount / totalQuestions) * 100);
+      percentTextEl.textContent = `${percentage}%`;
+      progressBarInnerEl.style.width = `${percentage}%`;
+    }
+
+    function showError(message) {
+      errorMessageEl.textContent = message;
+      errorMessageEl.classList.remove("hidden");
+    }
+
+    function handleNext() {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected) {
+        showError("Devam etmek için bir seçenek işaretlemen gerekiyor.");
+        return;
+      }
+      const value = parseInt(selected.value, 10);
+      answers[currentQuestionIndex] = value;
+
+      if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex += 1;
+        renderQuestion();
+        updateProgress();
+      } else {
+        // Test bitti
+        showResults();
+      }
+    }
+
+    function showResults() {
+      quizSection.classList.add("hidden");
+      resultSection.classList.remove("hidden");
+
+      const totalScore = answers.reduce((sum, val) => sum + (val || 0), 0);
+      const maxScore = questions.length * 5;
+      const percentage = Math.round((totalScore / maxScore) * 100);
+
+      resultScoreEl.textContent = `Genel Skorun: ${percentage}%`;
+
+      let summary = "";
+      let tag = "";
+
+      if (percentage >= 80) {
+        summary =
+          "Cevapların, test edilen yetkinlik alanlarına güçlü bir eğilimin olduğunu gösteriyor. Bu alanda derinleşmek ve uzmanlaşmak için iyi bir potansiyele sahipsin.";
+        tag = "Yüksek Uyum";
+      } else if (percentage >= 50) {
+        summary =
+          "Bazı alanlarda güçlü, bazı alanlarda ise gelişime açık yanların var. Doğru yönlendirme ve pratikle bu yetkinliklerini daha da güçlendirebilirsin.";
+        tag = "Orta Düzey Uyum";
+      } else {
+        summary =
+          "Sonuçların, bu alanda daha yolun başında olduğunu gösteriyor olabilir. Bu kesin bir yargı değil; sadece hangi konularda deneyim ve pratik ekleyebileceğine dair bir işaret olarak düşünebilirsin.";
+        tag = "Gelişim Alanı";
+      }
+
+      resultSummaryEl.textContent = summary;
+      resultTagEl.textContent = tag;
+    }
+
+    startBtn.addEventListener("click", startTest);
+    nextBtn.addEventListener("click", handleNext);
+  </script>
+</body>
+</html>
