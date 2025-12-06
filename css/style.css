@@ -223,9 +223,15 @@ p {
 
 /* Küçük ekranlarda logoları biraz küçültelim */
 @media (max-width: 480px) {
-  .corner-logo {
-    width: 48px;
-  }
+  .corner-logo-left {
+  width: 96px;
+}
+
+/* Sağ üst köşe */
+.corner-logo-right {
+  width: 48px;
+}
+
 }
 
 
