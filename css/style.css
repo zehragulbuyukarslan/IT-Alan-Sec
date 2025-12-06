@@ -237,6 +237,7 @@ p {
 
 @media (max-width: 768px) {
   body {
+    justify-content: center;
     background-image: url("../assets/futuristik.jpg"); /* Telefona özel görsel */
     background-size: cover;       /* İstersen 'contain' de deneyebilirsin */
     background-position: center;
