@@ -32,7 +32,7 @@ body {
 .app {
   width: 100%;
   max-width: 640px;
-  margin: 32px 16px;
+  margin: 64px;
   background: #ffffff;
   border-radius: 16px;
   padding: 24px 20px 28px;
@@ -193,6 +193,41 @@ p {
   color: #3730a3;
   margin-top: 6px;
 }
+
+/* Köşe logoları */
+.corner-logo {
+  position: fixed;        /* Ekrana sabitlenir, scroll edilince yerinde kalır */
+  z-index: 1000;          /* Kartların üstünde dursun */
+  height: auto;
+}
+
+.corner-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Sol üst köşe */
+.corner-logo-left {
+  width: 128px;
+  top: 16px;
+  left: 16px;
+}
+
+/* Sağ üst köşe */
+.corner-logo-right {
+  width: 64px;
+  top: 16px;
+  right: 16px;
+}
+
+/* Küçük ekranlarda logoları biraz küçültelim */
+@media (max-width: 480px) {
+  .corner-logo {
+    width: 48px;
+  }
+}
+
 
 @media (max-width: 768px) {
   body {
