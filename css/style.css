@@ -10,9 +10,13 @@
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background-image: url("../assets/futuristik.jpg");
+  
+  background-image: url("../assets/samanyolu.png");
   background-size: cover;
-  background-position: center;
+  background-position: center;    /* Ortaya hizalar */
+  background-repeat: no-repeat;  /* Tekrar etmez */
+  background-color: #f4f4f5;     /* Görsel yüklenmezse yedek renk */
+
 }
    
 body {
@@ -57,7 +61,7 @@ p {
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, 0.12s ease;
   background: #111827;
   color: #f9fafb;
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.24);
@@ -112,7 +116,7 @@ p {
   padding: 6px 8px;
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.1s ease, transform 0.08s ease;
+  transition: 0.1s ease, transform 0.08s ease;
 }
 
 .option-label:hover {
@@ -190,7 +194,13 @@ p {
   margin-top: 6px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  body {
+    background-image: url("../assets/futuristik.jpg"); /* Telefona özel görsel */
+    background-size: cover;       /* İstersen 'contain' de deneyebilirsin */
+    background-position: center;
+  }
+
   .app {
     margin: 16px 12px;
     padding: 18px 14px 22px;
