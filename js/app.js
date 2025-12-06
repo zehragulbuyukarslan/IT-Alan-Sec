@@ -1,6 +1,6 @@
 // 30 soruyu programatik olarak oluşturuyoruz.
 // Buradaki metinleri kendi gerçek sorularınla değiştirebilirsin.
-const questions = Array.from({ length: 30 }, (_, i) => ({
+/* const questions = Array.from({ length: 30 }, (_, i) => ({
   id: i + 1,
   text: `Soru ${i + 1}: Buraya kendi soru metnini yaz.`,
   // İstersen her soru için farklı seçenekler de verebilirsin.
@@ -11,7 +11,171 @@ const questions = Array.from({ length: 30 }, (_, i) => ({
     { label: "Katılıyorum", value: 4 },
     { label: "Tamamen katılıyorum", value: 5 },
   ],
-}));
+})); */
+
+// Ortak kullanılacak seçenekler (her soru için aynı ölçek)
+const baseOptions = [
+  { label: "Hiç katılmıyorum", value: 1 },
+  { label: "Katılmıyorum", value: 2 },
+  { label: "Kararsızım", value: 3 },
+  { label: "Katılıyorum", value: 4 },
+  { label: "Tamamen katılıyorum", value: 5 },
+];
+
+// 30 soruluk test
+const questions = [
+  {
+    id: 1,
+    text: "Karmaşık problemleri küçük parçalara bölerek çözmeyi severim.",
+    options: baseOptions,
+  },
+  {
+    id: 2,
+    text: "Sayısal verilerle çalışmak bana keyif verir.",
+    options: baseOptions,
+  },
+  {
+    id: 3,
+    text: "Yeni teknolojileri ve araçları kurcalamayı severim.",
+    options: baseOptions,
+  },
+  {
+    id: 4,
+    text: "Uzun süre bilgisayar başında çalışmak beni çok yormaz.",
+    options: baseOptions,
+  },
+  {
+    id: 5,
+    text: "Bir şey çalışmadığında hatayı bulana kadar uğraşmaktan çekinmem.",
+    options: baseOptions,
+  },
+  {
+    id: 6,
+    text: "İngilizce teknik kaynak okumaktan rahatsız olmam.",
+    options: baseOptions,
+  },
+  {
+    id: 7,
+    text: "Yeni şeyler öğrenmek için kendi kendime araştırma yaparım.",
+    options: baseOptions,
+  },
+  {
+    id: 8,
+    text: "Bir projede sorumluluk almayı severim.",
+    options: baseOptions,
+  },
+  {
+    id: 9,
+    text: "Zaman baskısı altında çalışırken genelde soğukkanlı kalırım.",
+    options: baseOptions,
+  },
+  {
+    id: 10,
+    text: "Mantık bulmacaları ve zeka oyunları ilgimi çeker.",
+    options: baseOptions,
+  },
+  {
+    id: 11,
+    text: "Tasarım detayları (renk, boşluk, hizalama vb.) dikkatimi çeker.",
+    options: baseOptions,
+  },
+  {
+    id: 12,
+    text: "Kullanıcıların bir ürünü nasıl kullandığını gözlemlemeyi ilginç bulurum.",
+    options: baseOptions,
+  },
+  {
+    id: 13,
+    text: "İnsanlarla iletişim kurmak ve fikirlerini dinlemek hoşuma gider.",
+    options: baseOptions,
+  },
+  {
+    id: 14,
+    text: "Yaptığım işleri bir başkasına anlatırken sabırlı davranabilirim.",
+    options: baseOptions,
+  },
+  {
+    id: 15,
+    text: "Tek başıma derin odaklanarak çalışmayı severim.",
+    options: baseOptions,
+  },
+  {
+    id: 16,
+    text: "Ekip içinde beyin fırtınası yapmaktan keyif alırım.",
+    options: baseOptions,
+  },
+  {
+    id: 17,
+    text: "Aynı işi defalarca yapmaktansa süreci otomatikleştirmeye çalışırım.",
+    options: baseOptions,
+  },
+  {
+    id: 18,
+    text: "Hata yaptığımda sebebini analiz etmeye çalışırım.",
+    options: baseOptions,
+  },
+  {
+    id: 19,
+    text: "Kullandığım uygulamaların nasıl çalıştığını merak ederim.",
+    options: baseOptions,
+  },
+  {
+    id: 20,
+    text: "Uzun vadeli hedefler koyup adım adım ilerleyebilirim.",
+    options: baseOptions,
+  },
+  {
+    id: 21,
+    text: "Eleştiri aldığımda savunmaya geçmek yerine dinlemeye çalışırım.",
+    options: baseOptions,
+  },
+  {
+    id: 22,
+    text: "Belirsizlik olduğunda bile hareket etmeye ve denemeye başlarım.",
+    options: baseOptions,
+  },
+  {
+    id: 23,
+    text: "Planlı ve organize çalışmaya önem veririm.",
+    options: baseOptions,
+  },
+  {
+    id: 24,
+    text: "Bir konuyu tam anlamadan geçmeyi sevmem.",
+    options: baseOptions,
+  },
+  {
+    id: 25,
+    text: "Birden fazla işi aynı anda yürütmek beni çok zorlamaz.",
+    options: baseOptions,
+  },
+  {
+    id: 26,
+    text: "Teknik konuları teknik olmayan birine açıklamaya çalışırım.",
+    options: baseOptions,
+  },
+  {
+    id: 27,
+    text: "Geri bildirim almanın gelişimim için önemli olduğuna inanırım.",
+    options: baseOptions,
+  },
+  {
+    id: 28,
+    text: "Hataları kabul edip düzeltmekte zorlanmam.",
+    options: baseOptions,
+  },
+  {
+    id: 29,
+    text: "Yeni bir işe başlarken öğrenme sürecinin zor olmasını normal karşılarım.",
+    options: baseOptions,
+  },
+  {
+    id: 30,
+    text: "Bilişim / IT alanında kendimi uzun vadede geliştirmek istiyorum.",
+    options: baseOptions,
+  },
+];
+
 
 const introSection = document.getElementById("intro-section");
 const quizSection = document.getElementById("quiz-section");
