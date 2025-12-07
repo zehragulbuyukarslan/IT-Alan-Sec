@@ -29,10 +29,28 @@ body {
   min-height: 100vh;
 }
 
+.alanlar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;             /* Logolar arası boşluk */
+  position: fixed;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%); /* Ortala */
+  z-index: 1000;
+  max-width: 100%;
+  align-items: center;
+}
+
+.alanlar img {
+  max-height: 96px;      
+  width: auto;
+}
+
 .app {
   width: 100%;
   max-width: 640px;
-  margin: 64px;
+  margin: 128px;
   background: #ffffff;
   border-radius: 16px;
   padding: 24px 20px 28px;
@@ -210,16 +228,17 @@ p {
 /* Sol üst köşe */
 .corner-logo-left {
   width: 128px;
-  top: 16px;
-  left: 16px;
+  bottom: 16px;
+  left: 24px;
 }
 
 /* Sağ üst köşe */
 .corner-logo-right {
   width: 64px;
-  top: 16px;
-  right: 16px;
+  bottom: 16px;
+  right: 24px;
 }
+
 
 /* Küçük ekranlarda logoları biraz küçültelim */
 @media (max-width: 480px) {
@@ -246,5 +265,9 @@ p {
   .app {
     margin: 16px 12px;
     padding: 18px 14px 22px;
+  }
+
+  .alanlar img {
+    max-height: 48px;      
   }
 }
