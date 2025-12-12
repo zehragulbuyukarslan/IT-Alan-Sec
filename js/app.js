@@ -1,5 +1,3 @@
-// 30 soruyu programatik olarak oluşturuyoruz.
-// Buradaki metinleri kendi gerçek sorularınla değiştirebilirsin.
 /* const questions = Array.from({ length: 30 }, (_, i) => ({
   id: i + 1,
   text: `Soru ${i + 1}: Buraya kendi soru metnini yaz.`,
@@ -12,6 +10,11 @@
     { label: "Tamamen katılıyorum", value: 5 },
   ],
 })); */
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const p = document.querySelector('p');
+});
 
 // Ortak kullanılacak seçenekler (her soru için aynı ölçek)
 const baseOptions = [
@@ -26,7 +29,7 @@ const baseOptions = [
 const questions = [
   {
     id: 1,
-    text: "Bir mobil uygulama geliştiriyorsunuz. Uygulama, kullanıcı bir butona bastığında arka planda sunucudan veri çekiyor. Ancak, kullanıcı butona tekrar tekrar hızlıca bastığında, aynı veri çekme işlemi defalarca tetikleniyor ve bu da sunucuda gereksiz yüke neden oluyor. Bu durumu kodlama düzeyinde önlemek için en temel ve etkili yaklaşımınız ne olur?",
+    text: "Soru 1 \nBir mobil uygulama geliştiriyorsunuz. Uygulama, kullanıcı bir butona bastığında arka planda sunucudan veri çekiyor. Ancak, kullanıcı butona tekrar tekrar hızlıca bastığında, aynı veri çekme işlemi defalarca tetikleniyor ve bu da sunucuda gereksiz yüke neden oluyor. Bu durumu kodlama düzeyinde önlemek için en temel ve etkili yaklaşımınız ne olur?",
     options:  [
   { label: "Hiç katılmıyorum", value: 1 },
   { label: "Katılmıyorum", value: 2 },
@@ -37,147 +40,147 @@ const questions = [
   },
   {
     id: 2,
-    text: "Bir hastane yönetim sistemi tasarlıyorsunuz. Sistemde 'Doktor', 'Hemşire' ve 'Hasta' gibi temel roller var. Her rolün kendine has özellikleri (Doktor'un uzmanlığı, Hemşire'nin vardiyası, Hasta'nın hastalık geçmişi) ve ortak işlevleri (Kişisel bilgileri görüntüleme, randevu kaydı oluşturma) bulunuyor. Nesne Yönelimli Programlama (NYP) prensiplerini kullanarak bu yapıyı en verimli şekilde nasıl modelledirsiniz?",
+    text: "Soru 2 \nBir hastane yönetim sistemi tasarlıyorsunuz. Sistemde 'Doktor', 'Hemşire' ve 'Hasta' gibi temel roller var. Her rolün kendine has özellikleri (Doktor'un uzmanlığı, Hemşire'nin vardiyası, Hasta'nın hastalık geçmişi) ve ortak işlevleri (Kişisel bilgileri görüntüleme, randevu kaydı oluşturma) bulunuyor. Nesne Yönelimli Programlama (NYP) prensiplerini kullanarak bu yapıyı en verimli şekilde nasıl modelledirsiniz?",
     options: baseOptions,
   },
   {
     id: 3,
-    text: "Bir uygulamanın son sürümünde, nadiren ve tahmin edilemeyen zamanlarda kullanıcıların profil fotoğrafının kaybolduğu bildiriliyor. Kendi testlerinizde bu hatayı yeniden oluşturamıyorsunuz. Hatanın kaynağını bulmak için izleyeceğiniz en sistematik ilk adım ne olmalıdır?",
+    text: "Soru 3 \nBir uygulamanın son sürümünde, nadiren ve tahmin edilemeyen zamanlarda kullanıcıların profil fotoğrafının kaybolduğu bildiriliyor. Kendi testlerinizde bu hatayı yeniden oluşturamıyorsunuz. Hatanın kaynağını bulmak için izleyeceğiniz en sistematik ilk adım ne olmalıdır?",
     options: baseOptions,
   },
   {
     id: 4,
-    text: "Bir ekip toplantısında, mevcut sistemin yavaşlığı tartışılıyor. Geliştiricilerin çoğu, kodun içindeki spesifik yavaş fonksiyonları optimize etmeyi önerirken, siz farklı bir görüş belirtiyorsunuz. Sizin yaklaşımınız aşağıdakilerden hangisidir?",
+    text: "Soru 4 \nBir ekip toplantısında, mevcut sistemin yavaşlığı tartışılıyor. Geliştiricilerin çoğu, kodun içindeki spesifik yavaş fonksiyonları optimize etmeyi önerirken, siz farklı bir görüş belirtiyorsunuz. Sizin yaklaşımınız aşağıdakilerden hangisidir?",
     options: baseOptions,
   },
   {
     id: 5,
-    text: "Bir çizgi film karakteri koleksiyonu uygulaması geliştiriyorsunuz. Her karakterin adı, rengi ve özel gücü var. Bazı karakterler uçabiliyor, bazıları hızlı koşabiliyor, bazıları ise görünmez olabiliyor. Bu farklı yetenekleri kod yapısına en esnek şekilde dahil etmek için hangi Nesne Yönelimli Tasarım Kalıbını (Design Pattern) kullanmayı tercih edersiniz?",
+    text: "Soru 5 \nBir çizgi film karakteri koleksiyonu uygulaması geliştiriyorsunuz. Her karakterin adı, rengi ve özel gücü var. Bazı karakterler uçabiliyor, bazıları hızlı koşabiliyor, bazıları ise görünmez olabiliyor. Bu farklı yetenekleri kod yapısına en esnek şekilde dahil etmek için hangi Nesne Yönelimli Tasarım Kalıbını (Design Pattern) kullanmayı tercih edersiniz?",
     options: baseOptions,
   },
   {
     id: 6,
-    text: "Bir geliştirici olarak, 1000 satırlık bir fonksiyonun içindeki bir hatayı (bug) bulmaya çalışıyorsunuz. Fonksiyon, birçok farklı girdi (input) alıyor ve çıktı (output) üretiyor. Fonksiyonun çıktısı beklediğiniz gibi değil. Hata ayıklama sürecini hızlandırmak için ilk olarak ne yaparsınız?",
+    text: "Soru 6 \nBir geliştirici olarak, 1000 satırlık bir fonksiyonun içindeki bir hatayı (bug) bulmaya çalışıyorsunuz. Fonksiyon, birçok farklı girdi (input) alıyor ve çıktı (output) üretiyor. Fonksiyonun çıktısı beklediğiniz gibi değil. Hata ayıklama sürecini hızlandırmak için ilk olarak ne yaparsınız?",
     options: baseOptions,
   },
   {
     id: 7,
-    text: "Bir A/B testi yaptınız. A versiyonunda dönüşüm oranı %5.0, B versiyonunda ise %5.2 çıktı. İstatistiksel olarak anlamlı bir fark olup olmadığını anlamak için hangi temel bilgiyi bilmeniz gerekir?",
+    text: "Soru 7 \nBir A/B testi yaptınız. A versiyonunda dönüşüm oranı %5.0, B versiyonunda ise %5.2 çıktı. İstatistiksel olarak anlamlı bir fark olup olmadığını anlamak için hangi temel bilgiyi bilmeniz gerekir?",
     options: baseOptions,
   },
   {
     id: 8,
-    text: "Bir model kurucu olarak, müşterilerinizin bir sonraki ay ne kadar harcama yapacağını tahmin eden bir model tasarlıyorsunuz. Modelin tahmin sonuçlarını ne zaman ve nasıl güncelleyeceğinize dair bir strateji belirlemelisiniz. Aşağıdaki yaklaşımlardan hangisi, kaynak verimliliği ve tahmin güncelliği arasında en iyi dengeyi sağlar?",
+    text: "Soru 8 \nBir model kurucu olarak, müşterilerinizin bir sonraki ay ne kadar harcama yapacağını tahmin eden bir model tasarlıyorsunuz. Modelin tahmin sonuçlarını ne zaman ve nasıl güncelleyeceğinize dair bir strateji belirlemelisiniz. Aşağıdaki yaklaşımlardan hangisi, kaynak verimliliği ve tahmin güncelliği arasında en iyi dengeyi sağlar?",
     options: baseOptions,
   },
   {
     id: 9,
-    text: "10.000 farklı ürüne ait satış verisini analiz ediyorsunuz. Her ürünün Fiyatı, Satış Miktarı, Stok Durumu ve Kategori Bilgisi var. Yöneticinize, \"Hangi ürün kategorileri en yüksek kâr marjına sahiptir?\" sorusunu görsel olarak açıklamak istiyorsunuz. En uygun görselleştirme yöntemi ne olur?",
+    text: "Soru 9 \n10.000 farklı ürüne ait satış verisini analiz ediyorsunuz. Her ürünün Fiyatı, Satış Miktarı, Stok Durumu ve Kategori Bilgisi var. Yöneticinize, \"Hangi ürün kategorileri en yüksek kâr marjına sahiptir?\" sorusunu görsel olarak açıklamak istiyorsunuz. En uygun görselleştirme yöntemi ne olur?",
     options: baseOptions,
   },
   {
     id: 10,
-    text: "100 GB büyüklüğünde, sık sık güncellenen bir müşteri verisi tablosuna sahipsiniz. Her ay, bu tablodaki verilere dayanarak karmaşık analizler yapmanız gerekiyor. Analiz sorgularının süresi giderek artıyor. Sorgu süresini düşürmek için veriye dayalı ilk müdahaleniz ne olur?",
+    text: "Soru 10 \n100 GB büyüklüğünde, sık sık güncellenen bir müşteri verisi tablosuna sahipsiniz. Her ay, bu tablodaki verilere dayanarak karmaşık analizler yapmanız gerekiyor. Analiz sorgularının süresi giderek artıyor. Sorgu süresini düşürmek için veriye dayalı ilk müdahaleniz ne olur?",
     options: baseOptions,
   },
   {
     id: 11,
-    text: "Bir e-posta pazarlama kampanyasının başarısını ölçüyorsunuz. Açıktır ki tıklama oranı (CTR) kampanyanın başarısının önemli bir göstergesidir. Ancak, yöneticiniz sadece CTR'ye bakmanın yeterli olmadığını iddia ediyor ve daha sağlam bir metrik önermenizi istiyor. Hangi metrik, sadece açılma ve tıklanma sayısından daha derin bir etkiyi ölçer?",
+    text: "Soru 11 \nBir e-posta pazarlama kampanyasının başarısını ölçüyorsunuz. Açıktır ki tıklama oranı (CTR) kampanyanın başarısının önemli bir göstergesidir. Ancak, yöneticiniz sadece CTR'ye bakmanın yeterli olmadığını iddia ediyor ve daha sağlam bir metrik önermenizi istiyor. Hangi metrik, sadece açılma ve tıklanma sayısından daha derin bir etkiyi ölçer?",
     options: baseOptions,
   },
   {
     id: 12,
-    text: "Bir Tahmin Modeli oluşturuyorsunuz. Modeliniz eğitim verilerinde %99 doğruluk gösteriyor, ancak gerçek dünyadan gelen yeni verilerde bu doğruluk %60'a düşüyor. Bu durum, modelinizin hangi temel problemi yaşadığını gösterir?",
+    text: "Soru 12 \nBir Tahmin Modeli oluşturuyorsunuz. Modeliniz eğitim verilerinde %99 doğruluk gösteriyor, ancak gerçek dünyadan gelen yeni verilerde bu doğruluk %60'a düşüyor. Bu durum, modelinizin hangi temel problemi yaşadığını gösterir?",
     options: baseOptions,
   },
   {
     id: 13,
-    text: "Bir sunucu odasındaki kritik bir veritabanı sunucusunu yönetiyorsunuz. Bu sunucunun donanımsal bir arıza nedeniyle çökmesi durumunda sistemin işleyişini aksatmamasını sağlamak için uygulayacağınız en temel ve hayati altyapı stratejisi ne olur?",
+    text: "Soru 13 \nBir sunucu odasındaki kritik bir veritabanı sunucusunu yönetiyorsunuz. Bu sunucunun donanımsal bir arıza nedeniyle çökmesi durumunda sistemin işleyişini aksatmamasını sağlamak için uygulayacağınız en temel ve hayati altyapı stratejisi ne olur?",
     options: baseOptions,
   },
   {
     id: 14,
-    text: "Uygulamanızın kullanıcı sayısı beklenenin çok üzerinde artıyor ve tek bir sunucu artık tüm isteklere yetişemiyor. Uygulamanızın mimarisini, kullanıcı sayısındaki gelecekteki artışlara kolayca uyum sağlayacak şekilde \"yatay olarak ölçeklenebilir\" (Horizontally Scalable) kılmak için ilk hangi adımı atarsınız?",
+    text: "Soru 14 \nUygulamanızın kullanıcı sayısı beklenenin çok üzerinde artıyor ve tek bir sunucu artık tüm isteklere yetişemiyor. Uygulamanızın mimarisini, kullanıcı sayısındaki gelecekteki artışlara kolayca uyum sağlayacak şekilde \"yatay olarak ölçeklenebilir\" (Horizontally Scalable) kılmak için ilk hangi adımı atarsınız?",
     options: baseOptions,
   },
   {
     id: 15,
-    text: "Bir bulut bilişim ortamında (Cloud Environment) bir e-posta bildirim hizmeti çalıştırıyorsunuz. Hizmet, günün büyük bir bölümünde boştadır ve sadece belirli saatlerde (örneğin, 09:00 ve 18:00) yoğun e-posta trafiği yaşar. Maliyetleri düşürmek için hangi altyapı stratejisini benimsemelisiniz?",
+    text: "Soru 15 \nBir bulut bilişim ortamında (Cloud Environment) bir e-posta bildirim hizmeti çalıştırıyorsunuz. Hizmet, günün büyük bir bölümünde boştadır ve sadece belirli saatlerde (örneğin, 09:00 ve 18:00) yoğun e-posta trafiği yaşar. Maliyetleri düşürmek için hangi altyapı stratejisini benimsemelisiniz?",
     options: baseOptions,
   },
   {
     id: 16,
-    text: "Bir kullanıcının web tarayıcısından sunucunuza güvenli ve şifreli veri göndermesini sağlamak için hangi protokolün kullanılması esastır?",
+    text: "Soru 16 \nBir kullanıcının web tarayıcısından sunucunuza güvenli ve şifreli veri göndermesini sağlamak için hangi protokolün kullanılması esastır?",
     options: baseOptions,
   },
   {
     id: 17,
-    text: "Yeni bir yazılımı üretim ortamına (Production Environment) dağıtmadan önce, yazılımın beklenen yük altında çalışıp çalışmayacağını test etmek istiyorsunuz. Bu amaçla yapılması gereken en uygun test türü nedir?",
+    text: "Soru 17 \nYeni bir yazılımı üretim ortamına (Production Environment) dağıtmadan önce, yazılımın beklenen yük altında çalışıp çalışmayacağını test etmek istiyorsunuz. Bu amaçla yapılması gereken en uygun test türü nedir?",
     options: baseOptions,
   },
   {
     id: 18,
-    text: "Bir ağ üzerindeki cihazlar arasında büyük dosyaların hızlı ve güvenilir bir şekilde transfer edilmesini sağlamak istiyorsunuz. Hangi yöntem, dosya transfer hızını artırmak ve ağ üzerindeki yükü azaltmak için dosyanın kendisini değiştirmeden en etkili şekilde kullanılabilir?",
+    text: "Soru 18 \nBir ağ üzerindeki cihazlar arasında büyük dosyaların hızlı ve güvenilir bir şekilde transfer edilmesini sağlamak istiyorsunuz. Hangi yöntem, dosya transfer hızını artırmak ve ağ üzerindeki yükü azaltmak için dosyanın kendisini değiştirmeden en etkili şekilde kullanılabilir?",
     options: baseOptions,
   },
   {
     id: 19,
-    text: "Kullanıcılarınızın parolalarını saklarken, bir güvenlik ihlali durumunda bile parolaların çalınmasını en zor hale getirecek yöntem hangisidir?",
+    text: "Soru 19 \nKullanıcılarınızın parolalarını saklarken, bir güvenlik ihlali durumunda bile parolaların çalınmasını en zor hale getirecek yöntem hangisidir?",
     options: baseOptions,
   },
   {
     id: 20,
-    text: "Bir web sitesinin giriş formunda, kullanıcı adının bir kod parçası (örneğin <script>alert('XSS')</script>) girmesini engelleyen bir güvenlik mekanizması tasarlıyorsunuz. Bu tür bir saldırıyı (XSS - Cross-Site Scripting) önlemek için kullanıcı girdisine yapmanız gereken temel işlem nedir?",
+    text: "Soru 20 \nBir web sitesinin giriş formunda, kullanıcı adının bir kod parçası (örneğin <script>alert('XSS')</script>) girmesini engelleyen bir güvenlik mekanizması tasarlıyorsunuz. Bu tür bir saldırıyı (XSS - Cross-Site Scripting) önlemek için kullanıcı girdisine yapmanız gereken temel işlem nedir?",
     options: baseOptions,
   },
   {
     id: 21,
-    text: "Bir uygulama, dışarıdan gelen bir kullanıcının kimliğini doğrulamak için bir token (jeton) kullanıyor. Bu tokenin süresi dolduğunda (expired) kullanıcının otomatik olarak oturumunu kapatmak ve yeni bir oturum açmasını istemek, hangi güvenlik prensibini destekler?",
+    text: "Soru 21 \nBir uygulama, dışarıdan gelen bir kullanıcının kimliğini doğrulamak için bir token (jeton) kullanıyor. Bu tokenin süresi dolduğunda (expired) kullanıcının otomatik olarak oturumunu kapatmak ve yeni bir oturum açmasını istemek, hangi güvenlik prensibini destekler?",
     options: baseOptions,
   },
   {
     id: 22,
-    text: "Bir güvenlik açığı (vulnerability) tespit ettiniz: Veri tabanınızdaki hassas müşteri bilgileri, sistemdeki bir hata nedeniyle düz metin (plaintext) olarak görünür hale gelme riski taşıyor. Bu kritik durumda ilk yapmanız gereken nedir?",
+    text: "Soru 22 \nBir güvenlik açığı (vulnerability) tespit ettiniz: Veri tabanınızdaki hassas müşteri bilgileri, sistemdeki bir hata nedeniyle düz metin (plaintext) olarak görünür hale gelme riski taşıyor. Bu kritik durumda ilk yapmanız gereken nedir?",
     options: baseOptions,
   },
   {
     id: 23,
-    text: "Saldırgan perspektifinden bakıldığında, bir web uygulamasının güvenlik açıklarını keşfetmeye çalışıyorsunuz. Başarılı bir SQL Enjeksiyonu (SQL Injection) saldırısı gerçekleştirmek için öncelikle hangi kodlama hatasını ararsınız?",
+    text: "Soru 23 \nSaldırgan perspektifinden bakıldığında, bir web uygulamasının güvenlik açıklarını keşfetmeye çalışıyorsunuz. Başarılı bir SQL Enjeksiyonu (SQL Injection) saldırısı gerçekleştirmek için öncelikle hangi kodlama hatasını ararsınız?",
     options: baseOptions,
   },
   {
     id: 24,
-    text: "Bir şirketin dahili ağından dışarıya izinsiz veri sızdırılmasını önlemek istiyorsunuz. Bu tür bir sızıntıyı tespit etmek ve engellemek için tasarlanmış ana güvenlik aracı hangisidir?",
+    text: "Soru 24 \nBir şirketin dahili ağından dışarıya izinsiz veri sızdırılmasını önlemek istiyorsunuz. Bu tür bir sızıntıyı tespit etmek ve engellemek için tasarlanmış ana güvenlik aracı hangisidir?",
     options: baseOptions,
   },
   {
     id: 25,
-    text: "Bir yazılım projesinde, geliştiriciler kod kalitesine odaklanmak isterken, proje yöneticisi mümkün olduğunca çok özelliği kısa sürede teslim etme baskısı yapıyor. Bu çatışmayı yönetmek için hangi yaklaşım en dengeli çözümü sunar?",
+    text: "Soru 25 \nBir yazılım projesinde, geliştiriciler kod kalitesine odaklanmak isterken, proje yöneticisi mümkün olduğunca çok özelliği kısa sürede teslim etme baskısı yapıyor. Bu çatışmayı yönetmek için hangi yaklaşım en dengeli çözümü sunar?",
     options: baseOptions,
   },
   {
     id: 26,
-    text: "Önemli bir müşteri, yazılımınızın \"verileri yanlış gösterdiğini\" iddia ediyor. Kendi testlerinizde bir sorun bulamadınız. Müşteriyle olan iletişimi en verimli ve objektif şekilde yönetmek için ilk adımınız ne olmalıdır?",
+    text: "Soru 26 \nÖnemli bir müşteri, yazılımınızın \"verileri yanlış gösterdiğini\" iddia ediyor. Kendi testlerinizde bir sorun bulamadınız. Müşteriyle olan iletişimi en verimli ve objektif şekilde yönetmek için ilk adımınız ne olmalıdır?",
     options: baseOptions,
   },
   {
     id: 27,
-    text: "Yeni bir özellik geliştirdiniz. Bu özelliği, önce küçük bir kullanıcı grubunda test etmek ve herhangi bir sorun olursa hızla geri alabilmek (rollback) istiyorsunuz. Bu süreç için en uygun Dağıtım Stratejisi (Deployment Strategy) hangisidir?",
+    text: "Soru 27 \nYeni bir özellik geliştirdiniz. Bu özelliği, önce küçük bir kullanıcı grubunda test etmek ve herhangi bir sorun olursa hızla geri alabilmek (rollback) istiyorsunuz. Bu süreç için en uygun Dağıtım Stratejisi (Deployment Strategy) hangisidir?",
     options: baseOptions,
   },
   {
     id: 28,
-    text: "Bir hesaplama modülündeki hatayı arıyorsunuz. Modül, 10 farklı parametre alıyor ve 5 farklı sonuç üretiyor. Tüm olası girdi kombinasyonlarını test etmek pratik değil. Hata bulma şansınızı artırmak için hangi test stratejisini kullanırsınız?",
+    text: "Soru 28 \nBir hesaplama modülündeki hatayı arıyorsunuz. Modül, 10 farklı parametre alıyor ve 5 farklı sonuç üretiyor. Tüm olası girdi kombinasyonlarını test etmek pratik değil. Hata bulma şansınızı artırmak için hangi test stratejisini kullanırsınız?",
     options: baseOptions,
   },
   {
     id: 29,
-    text: "Projeniz iki hafta içinde teslim edilmeli, ancak en önemli ve karmaşık özellik hala bitmedi. Geri kalan tüm görevler tamamlandı. Takımınız tükenmiş durumda. Proje yöneticisi olarak bu durumu nasıl yönetirsiniz?",
+    text: "Soru 29 \nProjeniz iki hafta içinde teslim edilmeli, ancak en önemli ve karmaşık özellik hala bitmedi. Geri kalan tüm görevler tamamlandı. Takımınız tükenmiş durumda. Proje yöneticisi olarak bu durumu nasıl yönetirsiniz?",
     options: baseOptions,
   },
   {
     id: 30,
-    text: "Aşağıdaki görev tanımlarından hangisi size mesleki açıdan en çok çekici gelmektedir?",
+    text: "Soru 30 \nAşağıdaki görev tanımlarından hangisi size mesleki açıdan en çok çekici gelmektedir?",
     options: baseOptions,
   },
 ];
