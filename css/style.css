@@ -119,6 +119,7 @@ p {
   font-weight: 600;
   margin-bottom: 12px;
   font-size: 1rem;
+  white-space: pre-wrap; /* \n karakterlerini satır sonuna çevirir */
 }
 
 .options {
@@ -246,26 +247,16 @@ p {
   width: 100%;
 }
 
-/* Küçük ekranlarda */
-@media (max-width: 480px) {
 
-  /* Sol alt köşe */
-  .corner-logo-left {
-  width: 96px;
-  }
-  /* Sağ alt köşe */
-  .corner-logo-right {
-  width: 48px;
-  }
-}
-
-
+/* Mobil */
 @media (max-width: 768px) {
   body {
     justify-content: center;
     background-image: url("../assets/futuristik.jpg"); /* Telefona özel görsel */
-    background-size: cover;       /* İstersen 'contain' de deneyebilirsin */
+    background-size: cover;       /* 'contain de deneyebilirsin */
     background-position: center;
+    display: flex;
+    flex-direction: column;
   }
   .app {
     margin: 16px 12px;
@@ -274,12 +265,38 @@ p {
   .alanlar img {
     max-height: 48px;      
   }
-    /* Sol alt köşe */
-  .corner-logo-left {
-  width: 128px;
+  .corner-logo-left {     /* Sol alt köşe */
+  width: 180px;
   }
-  /* Sağ alt köşe */
-  .corner-logo-right {
-  width: 48px;
+  .corner-logo-right {     /* Sağ alt köşe */
+  width: 60px;
   }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .corner-logo-left {  /* Sol alt köşe */
+  width: 220px;
+  }
+  .corner-logo-right {  /* Sağ alt köşe */
+  width: 70px;
+  }
+}
+
+/* Çok küçük ekranlarda */
+@media (max-width: 480px) {
+  .corner-logo-left {  /* Sol alt köşe */
+  width: 135px;
+  }
+  .corner-logo-right {  /* Sağ alt köşe */
+  width: 45px;
+  }
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+.question-text {
+  white-space: pre-wrap;
 }
