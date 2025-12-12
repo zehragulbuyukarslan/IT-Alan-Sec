@@ -229,13 +229,13 @@ p {
 /* Sol üst köşe */
 .corner-logo-left {
   width: 256px;
-  bottom: 16px;
+  bottom: 18px;
   left: 24px;
 }
 
 /* Sağ üst köşe */
 .corner-logo-right {
-  width: 64px;
+  width: 80px;
   bottom: 16px;
   right: 24px;
 }
@@ -246,17 +246,17 @@ p {
   width: 100%;
 }
 
-/* Küçük ekranlarda logoları biraz küçültelim */
+/* Küçük ekranlarda */
 @media (max-width: 480px) {
+
+  /* Sol alt köşe */
   .corner-logo-left {
   width: 96px;
-}
-
-/* Sağ üst köşe */
-.corner-logo-right {
+  }
+  /* Sağ alt köşe */
+  .corner-logo-right {
   width: 48px;
-}
-
+  }
 }
 
 
@@ -267,13 +267,19 @@ p {
     background-size: cover;       /* İstersen 'contain' de deneyebilirsin */
     background-position: center;
   }
-
   .app {
     margin: 16px 12px;
     padding: 18px 14px 22px;
   }
-
   .alanlar img {
     max-height: 48px;      
+  }
+    /* Sol alt köşe */
+  .corner-logo-left {
+  width: 128px;
+  }
+  /* Sağ alt köşe */
+  .corner-logo-right {
+  width: 48px;
   }
 }
