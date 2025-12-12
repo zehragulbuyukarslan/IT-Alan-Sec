@@ -293,10 +293,6 @@ p {
   }
 }
 
-p {
-  white-space: pre-wrap;
-}
-
 .question-text {
   white-space: pre-wrap;
 }

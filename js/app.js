@@ -1,20 +1,4 @@
-/* const questions = Array.from({ length: 30 }, (_, i) => ({
-  id: i + 1,
-  text: `Soru ${i + 1}: Buraya kendi soru metnini yaz.`,
-  // İstersen her soru için farklı seçenekler de verebilirsin.
-  options: [
-    { label: "Hiç katılmıyorum", value: 1 },
-    { label: "Katılmıyorum", value: 2 },
-    { label: "Kararsızım", value: 3 },
-    { label: "Katılıyorum", value: 4 },
-    { label: "Tamamen katılıyorum", value: 5 },
-  ],
-})); */
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  const p = document.querySelector('p');
-});
 
 // Ortak kullanılacak seçenekler (her soru için aynı ölçek)
 const baseOptions = [
