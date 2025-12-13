@@ -107,46 +107,99 @@ p {
   display: none;
 }
 
-.question-card {
-  margin-top: 8px;
-  padding: 16px 14px;
-  border-radius: 12px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-}
-
 .question-text {
   font-weight: 600;
   margin-bottom: 12px;
   font-size: 1rem;
   white-space: pre-wrap; /* \n karakterlerini satır sonuna çevirir */
-}
-
-.options {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-.option-label {
+  margin-top: 8px;
+  padding: 16px 16px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: 0.1s ease, transform 0.08s ease;
 }
 
+/* Ana Kapsayıcı Düzeltmesi */
+#options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px; /* Tek ve net değer bıraktık */
+    padding: 16px 14px;
+}
+
+/* Şık Etiketi (Tüm satır) */
+.option-label {
+    display: flex;
+    align-items: flex-start; /* Uzun metinler için yukarı hizalamayı tercih ettik */
+    gap: 10px; /* Harf kutusu ve metin arasındaki boşluğu hafif artırdık */
+    padding: 10px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    width: 560px;
+    border: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+/* Fare üzerine geldiğinde tüm satırın hover efekti */
 .option-label:hover {
-  background: #e5e7eb;
-  transform: translateY(-0.5px);
+    background: #f3f4f6;
+    border-color: #d1d5db;
 }
 
-.option-label input {
-  accent-color: #111827;
+/* Şık Harfi (A, B, C, D) Görünümü */
+.option-letter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* İçerik kaydığında küçülmesini engeller */
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #111827;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    /* align-items: flex-start kullanılıyorsa: */
+    margin-top: 0; 
 }
+
+/* Radyo Butonunu Gizleme (Mevcut hali doğru) */
+.option-label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+}
+
+/* Seçili şık: satırın ve harfin rengi değişsin (JS ile is-selected eklenecek) */
+.option-label.is-selected {
+    background: #111827;
+    border-color: #111827;
+    /* Ek: Metin kaymasını önlemek için bir miktar scale ekleyebiliriz */
+    transform: scale(1.01);
+}
+
+.option-label.is-selected span {
+    color: #f9fafb;
+    font-weight: 700;
+}
+
+.option-label.is-selected .option-letter {
+    background: #f9fafb;
+    color: #111827;
+}
+
+/* Seçiliyken hover rengi bozulmasın (Mevcut hali doğru) */
+.option-label.is-selected:hover {
+    background: #111827;
+    border-color: #111827;
+}
+
 
 .progress {
   margin-top: 12px;
