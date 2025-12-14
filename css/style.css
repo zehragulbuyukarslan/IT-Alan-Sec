@@ -3,38 +3,35 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
- body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  
-  background-image: url("../assets/samanyolu.png");
-  background-size: cover;
-  background-position: center;    /* Ortaya hizalar */
-  background-repeat: no-repeat;  /* Tekrar etmez */
-  background-color: #f4f4f5;     /* Görsel yüklenmezse yedek renk */
-
-}
-   
+/* Varsayılan arka plan: girişteki manzara fotoğrafı */
 body {
   margin: 0;
   padding: 0;
-  background: #f4f4f5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
+}
+
+/* Arka planı pseudo-element ile veriyoruz */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+
+  background-image: url("../assets/manzara.jpg"); /* girişteki fotoğraf */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.6s ease-in-out;
 }
 
 .alanlar {
   display: flex;
   justify-content: center;
   position: relative;
-  top: 32px;
+  top: 16px;
   z-index: 1000;
   max-width: 100%;
   align-items: center;
@@ -47,15 +44,75 @@ body {
   position: relative;
 }
 
+.hero {
+  color: #000;
+
+}
+
+.hero h1 {
+  padding-top: 60px;
+  padding-right: 80px;
+  text-align: right;
+  margin: 0 0 16px 0;
+  font-size: 3rem;      /* büyüklük */
+  font-weight: 700;
+}
+
+.hero p {
+  padding-right: 80px;
+  text-align: right;
+  color: #000;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 720px;
+  margin-left: auto;   /* SAĞA DAYA */
+  margin-right: 0;
+  margin-top: 30px;
+}
+
+
+.hero a {
+  display: block;
+  width: fit-content;
+  margin-top: 80px;   /* sadece yukarıdan boşluk */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+  color: #111;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.hero a:hover {
+  color: #c7d2fe;
+}
+
 .app {
   width: 100%;
   max-width: 640px;
-  margin: 150px;
+  margin: 150px auto;
   background: #ffffff;
   border-radius: 16px;
   padding: 24px 20px 28px;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
   position: relative;
+}
+
+.quiz {
+    position: relative; /* İçindeki görseli konumlandırmak için */
+    overflow: hidden;   /* Görselin quiz kutusunun dışına taşmasını engellemek için */
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Resmi kutuya sığdırır */
+    z-index: -1;       /* Test içeriğinin arkasında kalmasını sağlar */
+    border-radius: 16px; /* Quiz kartının köşelerine uyar */
+    opacity: 0.1; /* Test kartının beyazlığını korumak için hafif opaklık verilebilir */
 }
 
 h1 {
@@ -280,19 +337,20 @@ p {
   height: auto;
 }
 
-/* Sol üst köşe */
+/* Sol alt köşe */
 .corner-logo-left {
-  width: 256px;
+  width: 356px;
   bottom: 18px;
   left: 24px;
 }
 
-/* Sağ üst köşe */
+/* Sağ alt köşe
 .corner-logo-right {
   width: 80px;
   bottom: 16px;
   right: 24px;
 }
+*/
 
 .sayfa {
   background-color: black;
