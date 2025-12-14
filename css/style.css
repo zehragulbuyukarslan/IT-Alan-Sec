@@ -20,7 +20,7 @@ body::before {
   height: 100vh;
   z-index: -1;
 
-  background-image: url("../assets/manzara.jpg"); /* girişteki fotoğraf */
+  background-image: url("../assets/manzara.png"); /* girişteki fotoğraf */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -46,28 +46,26 @@ body::before {
 
 .hero {
   color: #000;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(50px);
 }
 
 .hero h1 {
   padding-top: 60px;
-  padding-right: 80px;
-  text-align: right;
   margin: 0 0 16px 0;
   font-size: 3rem;      /* büyüklük */
   font-weight: 700;
+  padding-bottom: 45px;
 }
 
 .hero p {
-  padding-right: 80px;
-  text-align: right;
+  text-align: center;
   color: #000;
   font-size: 1.1rem;
   line-height: 1.6;
-  max-width: 720px;
-  margin-left: auto;   /* SAĞA DAYA */
-  margin-right: 0;
-  margin-top: 30px;
+  max-width: 800px;
 }
 
 
