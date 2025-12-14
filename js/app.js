@@ -601,15 +601,20 @@ const resultTagEl = document.getElementById("result-tag");
 let currentQuestionIndex = 0;
 const answers = new Array(questions.length).fill(null);
 
+
+
 function startTest() {
+  // Giriş ekranını kapat, testi göster
   introSection.classList.add("hidden");
   resultSection.classList.add("hidden");
   quizSection.classList.remove("hidden");
+
   currentQuestionIndex = 0;
   for (let i = 0; i < answers.length; i++) answers[i] = null;
   renderQuestion();
   updateProgress();
 }
+
 
 function renderQuestion() {
     const q = questions[currentQuestionIndex];
@@ -710,15 +715,7 @@ function syncSelectedUI() {
   }
 }
 
-function startTest() {
-  introSection.classList.add("hidden");
-  resultSection.classList.add("hidden");
-  quizSection.classList.remove("hidden");
 
-  loadState(); // varsa kaldığı yerden devam
-  renderQuestion();
-  updateProgress();
-}
 
 
 function handleNext() {
