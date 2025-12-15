@@ -8,52 +8,48 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
   <!-- Üstte alan ikonların -->
   <div class="alanlar">
     <img src="assets/alanlar.png" alt="IT Alanları">
   </div>
-
   <!-- HERO: Fotoğrafın üstündeki başlık ve tanıtım metni -->
   <header class="hero">
     <div class="hero-inner">
-
       <h1 class="hero-eyebrow">Bilgisayar Teknolojileri Yolunu Keşfet</h1>
-
       <p><strong>Bu test, ezberlediğin teknik bilgiyi değil; problem çözme tarzını, mantık yürütme biçimini
         ve teknolojiye doğal eğilimini ölçer.</strong></p>
-
       <p>Aşağı kaydır, sorulara içgüdülerinle cevap ver ve sana en uygun bilgisayar bilimleri
         alanlarını birlikte keşfedelim. Toplam <strong>30 soru</strong> var.</p>
-
       <a href="#test-baslangic" class="hero-cta">test için aşağı kaydır</a>
     </div>
   </header>
-
   <!-- TEST KARTI: Scroll edince gelen beyaz kutu -->
   <main class="app" id="test-baslangic">
 
-    <section class="quiz">
-
+  </main>
+  <!-- Sol alt logo -->
+  <div class="corner-logo corner-logo-left">
+    <img src="assets/logolar.png" alt="Sol alt logo">
+  </div>
+  <div class="sayfa">
+        <section class="quiz">
       <img src="../assets/samanyolu.png" alt="Samanyolu" class="background-image">
     
     <!-- Giriş / Açıklama Bölümü (artık sadece buton + kısa hatırlatma) -->
     <div id="intro-section">
-      <h2>Teste Başlamadan Önce</h2>
+      <h2 id=>Teste Başlamadan Önce</h2>
       <p>
         Rahat bir ortamda, sezgisel olarak cevapla. Doğru / yanlış yok;
         sadece senin düşünme ve çalışma tarzın var.
       </p>
       <button class="btn" id="start-btn">Testi Başlat</button>
     </div>
-
     <!-- Test Bölümü -->
     <div id="quiz-section" class="hidden">
       <div id="question-card" class="question-card">
         <div id="question-text" class="question-text"></div>
         <div id="options" class="options"></div>
       </div>
-
       <div class="progress">
         <div id="progress-text">Soru 1 / 30</div>
         <div id="percent-text">0%</div>
@@ -61,15 +57,12 @@
       <div class="progress-bar">
         <div id="progress-bar-inner" class="progress-bar-inner"></div>
       </div>
-
       <div id="error-message" class="error hidden"></div>
-
       <div class="actions">
         <button class="btn" id="next-btn">Sonraki soru</button>
       </div>
     </div>
     
-
     <!-- Sonuç Bölümü -->
     <div id="result-section" class="hidden">
       <h1>Test Sonucun</h1>
@@ -78,26 +71,14 @@
         <div id="result-summary"></div>
         <div id="result-tag" class="tag"></div>
       </div>
-
       <p style="margin-top: 16px; font-size: 0.9rem; color: #4b5563;">
         Bu sonuç, testte verdiğin yanıtlara göre oluşturulmuş basit bir analizdir.
         Kendi metodolojine göre puan aralıklarını ve açıklamaları rahatlıkla güncelleyebilirsin.
       </p>
     </div>
     </section>
-  </main>
-
-  <!-- Sol alt logo -->
-  <div class="corner-logo corner-logo-left">
-    <img src="assets/logolar.png" alt="Sol alt logo">
   </div>
-
-  <div class="sayfa">
-    <span></span>
-  </div>
-
   <!-- JS -->
   <script src="js/app.js"></script>
 </body>
-
 </html>

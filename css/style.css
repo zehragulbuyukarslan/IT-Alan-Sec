@@ -2,14 +2,12 @@
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-
 /* Varsayılan arka plan: girişteki manzara fotoğrafı */
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
 }
-
 /* Arka planı pseudo-element ile veriyoruz */
 body::before {
   content: "";
@@ -19,14 +17,12 @@ body::before {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-
   background-image: url("../assets/manzara.png"); /* girişteki fotoğraf */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transition: background-image 0.6s ease-in-out;
 }
-
 .alanlar {
   display: flex;
   justify-content: center;
@@ -36,14 +32,12 @@ body::before {
   max-width: 100%;
   align-items: center;
 }
-
 .alanlar img {
   max-height: 96px;      
   width: auto;
   display: flex;
   position: relative;
 }
-
 .hero {
   color: #000;
   display: flex;
@@ -51,7 +45,6 @@ body::before {
   align-items: center;
   transform: translateX(50px);
 }
-
 .hero h1 {
   padding-top: 60px;
   margin: 0 0 16px 0;
@@ -59,7 +52,6 @@ body::before {
   font-weight: 700;
   padding-bottom: 45px;
 }
-
 .hero p {
   text-align: center;
   color: #000;
@@ -67,7 +59,6 @@ body::before {
   line-height: 1.6;
   max-width: 800px;
 }
-
 
 .hero a {
   display: block;
@@ -80,27 +71,20 @@ body::before {
   text-decoration: underline;
   text-align: center;
 }
-
 .hero a:hover {
   color: #c7d2fe;
 }
-
-.app {
-  width: 100%;
-  max-width: 640px;
-  margin: 150px auto;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px 20px 28px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-  position: relative;
+#intro-section {
+  color: white;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 720px;
+  padding-bottom: 120px; /* alt boşluk */
 }
-
 .quiz {
     position: relative; /* İçindeki görseli konumlandırmak için */
     overflow: hidden;   /* Görselin quiz kutusunun dışına taşmasını engellemek için */
 }
-
 .background-image {
     position: absolute;
     top: 0;
@@ -112,19 +96,16 @@ body::before {
     border-radius: 16px; /* Quiz kartının köşelerine uyar */
     opacity: 0.1; /* Test kartının beyazlığını korumak için hafif opaklık verilebilir */
 }
-
 h1 {
   margin-top: 0;
   font-size: 1.6rem;
   letter-spacing: 0.02em;
 }
-
 p {
   line-height: 1.5;
   font-size: 0.95rem;
   color: #444;
 }
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -140,28 +121,23 @@ p {
   color: #f9fafb;
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.24);
 }
-
 .btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.3);
 }
-
 .btn:active {
   transform: translateY(0);
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
 }
-
 .btn[disabled] {
   opacity: 0.6;
   cursor: default;
   box-shadow: none;
   transform: none;
 }
-
 .hidden {
   display: none;
 }
-
 .question-text {
   font-weight: 600;
   margin-bottom: 12px;
@@ -175,7 +151,6 @@ p {
   display: flex;
   align-items: center;
 }
-
 /* Ana Kapsayıcı Düzeltmesi */
 #options {
     display: flex;
@@ -184,7 +159,6 @@ p {
     margin-top: 15px; /* Tek ve net değer bıraktık */
     padding: 16px 14px;
 }
-
 /* Şık Etiketi (Tüm satır) */
 .option-label {
     display: flex;
@@ -198,13 +172,11 @@ p {
     border: 1px solid #e5e7eb;
     background-color: #f9fafb;
 }
-
 /* Fare üzerine geldiğinde tüm satırın hover efekti */
 .option-label:hover {
     background: #f3f4f6;
     border-color: #d1d5db;
 }
-
 /* Şık Harfi (A, B, C, D) Görünümü */
 .option-letter {
     display: flex;
@@ -221,7 +193,6 @@ p {
     /* align-items: flex-start kullanılıyorsa: */
     margin-top: 0; 
 }
-
 /* Radyo Butonunu Gizleme (Mevcut hali doğru) */
 .option-label input[type="radio"] {
     position: absolute;
@@ -230,7 +201,6 @@ p {
     height: 1px;
     pointer-events: none;
 }
-
 /* Seçili şık: satırın ve harfin rengi değişsin (JS ile is-selected eklenecek) */
 .option-label.is-selected {
     background: #111827;
@@ -238,23 +208,19 @@ p {
     /* Ek: Metin kaymasını önlemek için bir miktar scale ekleyebiliriz */
     transform: scale(1.01);
 }
-
 .option-label.is-selected span {
     color: #f9fafb;
     font-weight: 700;
 }
-
 .option-label.is-selected .option-letter {
     background: #f9fafb;
     color: #111827;
 }
-
 /* Seçiliyken hover rengi bozulmasın (Mevcut hali doğru) */
 .option-label.is-selected:hover {
     background: #111827;
     border-color: #111827;
 }
-
 
 .progress {
   margin-top: 12px;
@@ -264,7 +230,6 @@ p {
   align-items: center;
   color: #6b7280;
 }
-
 .progress-bar {
   margin-top: 6px;
   width: 100%;
@@ -273,27 +238,23 @@ p {
   background: #e5e7eb;
   overflow: hidden;
 }
-
 .progress-bar-inner {
   height: 100%;
   width: 0%;
   background: #111827;
   transition: width 0.2s ease;
 }
-
 .actions {
   margin-top: 18px;
   display: flex;
   justify-content: flex-end;
   gap: 8px;
 }
-
 .error {
   margin-top: 10px;
   font-size: 0.85rem;
   color: #b91c1c;
 }
-
 .result-box {
   margin-top: 16px;
   padding: 16px 14px;
@@ -302,13 +263,11 @@ p {
   border: 1px solid #bbf7d0;
   font-size: 0.95rem;
 }
-
 .result-highlight {
   font-weight: 700;
   font-size: 1.1rem;
   margin-bottom: 6px;
 }
-
 .tag {
   display: inline-flex;
   align-items: center;
@@ -321,27 +280,23 @@ p {
   color: #3730a3;
   margin-top: 6px;
 }
-
 /* Köşe logoları */
 .corner-logo {
   position: fixed;        /* Ekrana sabitlenir, scroll edilince yerinde kalır */
   z-index: 1000;          /* Kartların üstünde dursun */
   height: auto;
 }
-
 .corner-logo img {
   display: block;
   width: 100%;
   height: auto;
 }
-
 /* Sol alt köşe */
 .corner-logo-left {
   width: 356px;
   bottom: 18px;
   left: 24px;
 }
-
 /* Sağ alt köşe
 .corner-logo-right {
   width: 80px;
@@ -349,13 +304,11 @@ p {
   right: 24px;
 }
 */
-
 .sayfa {
   background-color: black;
-  height: 300px;
+  height: 100%;
   width: 100%;
 }
-
 
 /* Mobil */
 @media (max-width: 768px) {
@@ -381,7 +334,6 @@ p {
   width: 60px;
   }
 }
-
 /* Tablet */
 @media (min-width: 769px) and (max-width: 1024px) {
   .corner-logo-left {  /* Sol alt köşe */
@@ -391,7 +343,6 @@ p {
   width: 70px;
   }
 }
-
 /* Çok küçük ekranlarda */
 @media (max-width: 480px) {
   .corner-logo-left {  /* Sol alt köşe */
@@ -401,7 +352,6 @@ p {
   width: 45px;
   }
 }
-
 .question-text {
   white-space: pre-wrap;
 }
