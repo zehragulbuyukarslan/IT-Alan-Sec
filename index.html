@@ -9,19 +9,22 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  
+  <!-- HERO: Fotoğrafın üstündeki başlık ve tanıtım metni -->
+  <header class="hero">
+
   <!-- Üstte alan ikonların -->
   <div class="alanlar">
     <img src="assets/alanlar.png" alt="IT Alanları">
   </div>
-  <!-- HERO: Fotoğrafın üstündeki başlık ve tanıtım metni -->
-  <header class="hero">
+
     <div class="hero-inner">
       <h1 class="hero-eyebrow">Bilgisayar Teknolojileri Yolunu Keşfet</h1>
       <p><strong>Bu test, ezberlediğin teknik bilgiyi değil; problem çözme tarzını, mantık yürütme biçimini
         ve teknolojiye doğal eğilimini ölçer.</strong></p>
       <p>Aşağı kaydır, sorulara içgüdülerinle cevap ver ve sana en uygun bilgisayar bilimleri
         alanlarını birlikte keşfedelim. Toplam <strong>30 soru</strong> var.</p>
-      <a href="#test-baslangic" class="hero-cta">test için aşağı kaydır</a>
+      <a href="#sayfa" class="hero-cta">test için aşağı kaydır</a>
     </div>
   </header>
  
@@ -29,10 +32,11 @@
   <div class="corner-logo corner-logo-left">
     <img src="assets/logolar.png" alt="Sol alt logo">
   </div>
-  <div class="sayfa">
+
+  <section id="sayfa" class="sayfa">
 
     <!-- Giriş / Açıklama Bölümü (artık sadece buton + kısa hatırlatma) -->
-    <section id="intro-section">
+    <div id="intro-section" >
   <h2>Teste Başlamadan Önce</h2>
   <p>
     Bu test, bilgisayar bilimleriyle ilgili senaryo ve problemler içerir. 
@@ -44,7 +48,7 @@
     de ölçmeyi hedefler.
   </p>
   <button class="btn" id="start-btn">Testi Başlat</button>
-</section>
+    </div>
 
     <!-- Test Bölümü -->
     <div id="quiz-section" class="hidden">
@@ -64,22 +68,30 @@
         <button class="btn" id="next-btn">Sonraki soru</button>
       </div>
     </div>
+
+  <div id="after-quiz-actions" class="hidden" style="text-align:center; margin-top:40px;">
+    <button class="btn" id="show-result-btn">
+      Analiz Sonucunu Gör
+    </button>
+  </div>
+
     
     <!-- Sonuç Bölümü -->
     <div id="result-section" class="hidden">
       <h1>Test Sonucun</h1>
+
       <div class="result-box">
         <div class="result-highlight" id="result-score"></div>
         <div id="result-summary"></div>
         <div id="result-tag" class="tag"></div>
-      </div>
-      <p style="margin-top: 16px; font-size: 0.9rem; color: #4b5563;">
+        <p class="result-note">
         Bu sonuç, testte verdiğin yanıtlara göre oluşturulmuş basit bir analizdir.
         Kendi metodolojine göre puan aralıklarını ve açıklamaları rahatlıkla güncelleyebilirsin.
       </p>
+      </div>
     </div>
-    </section>
-  </div>
+
+  </section>
   <!-- JS -->
   <script src="js/app.js"></script>
 </body>
