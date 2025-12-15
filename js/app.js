@@ -876,6 +876,24 @@ async function submitResultToGoogleSheet(payload) {
   }
 }
 
+const afterQuizActions = document.getElementById("after-quiz-actions");
+const showResultBtn = document.getElementById("show-result-btn");
+// testi bitirince sonucu gösterme butonuna basılacak
+
+quizSection.classList.add("hidden");
+
+// sonucu HAZIRLA ama gösterme
+afterQuizActions.classList.remove("hidden");
+
+showResultBtn.addEventListener("click", () => {
+  afterQuizActions.classList.add("hidden");
+  resultSection.classList.add("is-visible");
+
+  resultSection.scrollIntoView({ behavior: "smooth" });
+});
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const scrollBtn = document.getElementById("scrollToTest");
   const target = document.getElementById("test-baslangic");
