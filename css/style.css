@@ -38,12 +38,46 @@ body::before {
   display: flex;
   position: relative;
 }
+<<<<<<< Updated upstream
+=======
+
+.hero::before {
+  content: "";
+  position: absolute;
+  left: 500px;     /* SOL BOŞLUK */
+  right: 500px;    /* SAĞ BOŞLUK */
+  top: 20px;       /* ÜST BOŞLUK */
+  height: 75%; 
+  
+  border-radius: 28px; /* yuvarlak hissin anahtarı */
+
+  background: linear-gradient(
+    to right,
+    rgba(245, 247, 250, 0.40) 0%,
+    rgba(245, 247, 250, 0.25) 15%,
+    rgba(245, 247, 250, 0.12) 30%,
+    rgba(245, 247, 250, 0.05) 45%,
+    rgba(245, 247, 250, 0.00) 50%,
+    rgba(245, 247, 250, 0.05) 55%,
+    rgba(245, 247, 250, 0.12) 70%,
+    rgba(245, 247, 250, 0.25) 85%,
+    rgba(245, 247, 250, 0.40) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+>>>>>>> Stashed changes
 .hero {
+  position: relative;
   color: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
   transform: translateX(50px);
+   padding-bottom: 120px;
+
 }
 .hero h1 {
   padding-top: 60px;
@@ -74,12 +108,70 @@ body::before {
 .hero a:hover {
   color: #c7d2fe;
 }
+<<<<<<< Updated upstream
 #intro-section {
   color: white;
   text-align: center;
   margin: 0 auto;
   max-width: 720px;
   padding-bottom: 120px; /* alt boşluk */
+=======
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 42px;
+  border: 2px solid rgba(245, 247, 250, 0.7);
+  border-radius: 16px;
+  cursor: pointer;
+  z-index: 3;
+  overflow: hidden;
+}
+.scroll-indicator span {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  background: rgba(245, 247, 250, 0.7);
+  border-radius: 4px;
+  transform: translateX(-50%) translateY(0);
+  animation: scrollHint 1.8s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes scrollHint {
+  0% {
+    opacity: 0;
+    top: 8px;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+    top: 18px;
+  }
+  100% {
+    opacity: 0;
+    top: 26px;
+  }
+}
+
+
+.app {
+  width: 100%;
+  max-width: 640px;
+  margin: 150px auto;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 20px 28px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  position: relative;
+>>>>>>> Stashed changes
 }
 .quiz {
     position: relative; /* İçindeki görseli konumlandırmak için */

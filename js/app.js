@@ -876,3 +876,16 @@ async function submitResultToGoogleSheet(payload) {
   }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const scrollBtn = document.getElementById("scrollToTest");
+  const target = document.getElementById("test-baslangic");
+
+  if (scrollBtn && target) {
+    scrollBtn.addEventListener("click", () => {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  }
+});
