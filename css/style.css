@@ -424,6 +424,7 @@ p {
 
 #result-section {
   display: flex;          /* HER ZAMAN FLEX */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 120px 24px;
@@ -450,6 +451,7 @@ p {
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 16px;
 
   border: 1px solid rgba(148, 163, 184, 0.15);

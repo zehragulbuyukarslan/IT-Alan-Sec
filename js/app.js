@@ -743,6 +743,10 @@ function handleNext() {
 }
 
 function showResults() {
+
+  // ➜ Test bittikten sonra "Analiz Sonucunu Gör" butonunu aç
+  afterQuizActions.classList.remove("hidden");
+
     quizSection.classList.add("hidden");
     resultSection.classList.remove("hidden");
 
@@ -881,9 +885,6 @@ const showResultBtn = document.getElementById("show-result-btn");
 // testi bitirince sonucu gösterme butonuna basılacak
 
 quizSection.classList.add("hidden");
-
-// sonucu HAZIRLA ama gösterme
-afterQuizActions.classList.remove("hidden");
 
 showResultBtn.addEventListener("click", () => {
   afterQuizActions.classList.add("hidden");
