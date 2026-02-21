@@ -11,18 +11,102 @@ body {
   overflow-x: hidden;
 }
 
-.alanlar {
-  position: relative;
-  margin-top: 16px;
-  z-index: 5;
+header nav a {
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    /* Şıklardaki hover mantığına benzer bir yumuşaklık */
+}
+
+header nav a:hover {
+    color: #111827;
+    border-bottom: 2px solid #111827;
+}
+
+/* Navbar Genel Stil */
+.navbar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 10%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+/* Menü Kapsayıcısı */
+.menu {
+  display: flex;
+  gap: 2rem;
   align-items: center;
 }
 
-.alanlar img {
-  max-height: 64px;
+/* Menü Öğeleri */
+.menu-item {
+  text-decoration: none;
+  color: #4b5563; /* Hafif gri */
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 0.5rem 0;
 }
+
+/* Hover Efekti: Alt çizgi animasyonu */
+.menu-item::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #111827;
+  transition: width 0.3s ease;
+}
+
+.menu-item:hover {
+  color: #111827;
+}
+
+.menu-item:hover::after {
+  width: 100%;
+}
+
+/* Hemen Başla Butonu (CTA) */
+.start-btn {
+  text-decoration: none;
+  background-color: #111827;
+  color: #ffffff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.start-btn:hover {
+  background-color: #374151;
+  transform: translateY(-1px);
+}
+
+#bg-video {
+  position: relative;
+  margin-top: 16px;
+  height: 128px;
+  z-index: 5;
+
+  display: flex;
+  justify-content: flex-end; /* ✅ sağa alır */
+  align-items: center;
+}
+
 
 .hero::before {
   content: "";
@@ -207,7 +291,7 @@ body {
 }
 
 #intro-section p {
-  color: #333;
+  color: #222;
 }
 
 .quiz {
@@ -545,7 +629,7 @@ p {
 
 /* Sol alt köşe */
 .corner-logo-left {
-  width: 356px;
+  width: 150px;
   bottom: 18px;
   left: 24px;
 }
