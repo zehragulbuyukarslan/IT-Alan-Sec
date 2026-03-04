@@ -11,6 +11,10 @@ body {
   overflow-x: hidden;
 }
 
+#header {
+  width: 100%;
+}
+
 header nav a {
     transition: color 0.3s ease, border-bottom 0.3s ease;
     /* Şıklardaki hover mantığına benzer bir yumuşaklık */
@@ -21,8 +25,8 @@ header nav a:hover {
     border-bottom: 2px solid #111827;
 }
 
-/* Navbar Genel Stil */
-.navbar {
+
+.menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,13 +43,6 @@ header nav a:hover {
   font-weight: 800;
   color: #111827;
   letter-spacing: -0.5px;
-}
-
-/* Menü Kapsayıcısı */
-.menu {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
 }
 
 /* Menü Öğeleri */
@@ -79,22 +76,6 @@ header nav a:hover {
   width: 100%;
 }
 
-/* Hemen Başla Butonu (CTA) */
-.start-btn {
-  text-decoration: none;
-  background-color: #111827;
-  color: #ffffff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.start-btn:hover {
-  background-color: #374151;
-  transform: translateY(-1px);
-}
 
 #bg-video {
   position: relative;
