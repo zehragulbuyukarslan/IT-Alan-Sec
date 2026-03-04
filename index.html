@@ -8,42 +8,38 @@
   <!-- Harici CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   
-  <!-- HERO: Fotoğrafın üstündeki başlık ve tanıtım metni -->
-  <header class="hero">
-
-  <div class="navbar">
-  <div class="logo">IT-TalentScan</div>
-  
-  <nav class="menu">
-    <a href="#quiz-section" class="menu-item">Teste Git</a>
-    <a href="#about-section" class="menu-item">Hakkında</a>
-    <a href="#categories-section" class="menu-item">Kategoriler</a>
-    <a href="#references-section" class="menu-item">Kaynaklar</a>
-  </nav>
-
-  <div class="nav-cta">
-    <a href="#quiz-section" class="start-btn">Hemen Başla</a>
-  </div>
-  </div>
-
-  <!-- Üstte alan ikonları videosu --> 
-  <video autoplay muted loop playsinline id="bg-video">
-    <source src="assets/alanlar.mp4" type="video/mp4">
-  </video>
-
-    <div class="hero-inner">
-      <h1 class="hero-eyebrow">Bilgisayar Teknolojileri Yolunu Keşfet</h1>
-      <p><strong>Bu test, ezberlediğin teknik bilgiyi değil; problem çözme tarzını, mantık yürütme biçimini
-        ve teknolojiye doğal eğilimini ölçer.</strong></p>
-      <p>Aşağı kaydır, sorulara içgüdülerinle cevap ver ve sana en uygun bilgisayar bilimleri
-        alanlarını birlikte keşfedelim. Toplam <strong>30 soru</strong> var.</p>
-      <a href="#sayfa" class="hero-cta">test için aşağı kaydır</a>
-    </div>
+  <header id="header">
+    <nav class="menu">
+      <a href="#about-section" class="menu-item">Hakkında</a>
+      <a href="#categories-section" class="menu-item">Kategoriler</a>
+      <a href="#references-section" class="menu-item">Kaynaklar</a>
+      <a href="#sayfa" class="menu-item">Teste Git</a>
+    </nav>
   </header>
- 
-  <!-- Sol alt logo -->
+
+  <main class="main">
+    
+    <!-- alan ikonları videosu --> 
+    <video autoplay muted loop playsinline id="bg-video">
+      <source src="assets/alanlar.mp4" type="video/mp4">
+    </video>
+
+    <section class="hero">
+      <h1 class="hero-eyebrow">Bilgisayar Teknolojileri Yolunu Keşfet</h1>
+
+      <p>
+        <strong>Bu test, ezberlediğin teknik bilgiyi değil; problem çözme tarzını, mantık yürütme biçimini
+        ve teknolojiye doğal eğilimini ölçer.</strong><br>
+        Aşağı kaydır, sorulara içgüdülerinle cevap ver ve sana en uygun bilgisayar bilimleri
+        alanlarını birlikte keşfedelim. Toplam <strong>30 soru</strong> var.
+      </p>
+      <a href="#sayfa" class="hero-cta">test için aşağı kaydır</a>
+    </section>
+
+    <!-- Sol alt logo -->
   <div class="corner-logo corner-logo-left">
     <img src="assets/logolar.png" alt="Sol alt logo">
   </div>
@@ -104,6 +100,8 @@
     </div>
 
   </section>
+  </main>
+ 
   <!-- JS -->
   <script src="js/app.js"></script>
 </body>
