@@ -586,7 +586,7 @@ const resultSection = document.getElementById("result-section");
 
 const questionTextEl = document.getElementById("question-text");
 const optionsEl = document.getElementById("options");
-const progressTextEl = document.getElementById("progress-text");
+const progressTextEl = document.getElementById("question-text-num") || document.getElementById("progress-text");
 const percentTextEl = document.getElementById("percent-text");
 const progressBarInnerEl = document.getElementById("progress-bar-inner");
 const errorMessageEl = document.getElementById("error-message");
