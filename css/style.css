@@ -7,7 +7,7 @@
   --border-strong: rgba(255, 255, 255, 0.14);
   --text: #f0f2f7;
   --text-muted: #d4d7e0;
-  --text-dim: #4a5068;
+  --text-dim: #b0b1b4;
   --accent: #38bdf8;
   --accent-dim: rgba(56, 189, 248, 0.12);
   --accent-glow: rgba(56, 189, 248, 0.25);
@@ -837,8 +837,9 @@ body {
   font-size: 0.8rem;
   color: var(--text-dim);
   border-top: 1px solid var(--border);
-  padding-top: 16px;
-  margin-top: 8px;
+  padding-top: 32px;
+  margin-top: 16px;
+  margin-bottom: 0px;
   line-height: 1.6;
 }
 

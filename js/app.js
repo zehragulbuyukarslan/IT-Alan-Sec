@@ -601,7 +601,7 @@ const resultTagEl = document.getElementById("result-tag");
 let currentQuestionIndex = 0;
 const answers = new Array(questions.length).fill(null);
 
-/** Toplam test süresi (ms). Sitedeki “~15 dk” metniyle uyumlu. */
+/** Toplam test süresi (ms). Sitedeki “~30 dk” metniyle uyumlu. */
 const TEST_DURATION_MS = 30 * 60 * 1000;
 /** Kalan süre bu değerin altına inince uyarı gösterilir. */
 const WARNING_REMAINING_MS = 5 * 60 * 1000;
