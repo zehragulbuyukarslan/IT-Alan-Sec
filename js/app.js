@@ -1,5 +1,21 @@
+// Firebase CDN (compat) üzerinden yüklenir — index.html'deki script tagları gerekli
+// Hata olursa uygulama yine de çalışır, sadece Firestore kaydı atlanır
+let db = null;
+try {
+  const firebaseConfig = {
+    apiKey:            import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain:        import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId:         import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket:     import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId:             import.meta.env.VITE_FIREBASE_APP_ID,
+  };
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+} catch (err) {
+  console.warn("Firebase başlatılamadı — veriler yalnızca localStorage'a kaydedilecek.", err);
+}
 
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWfGLBszLyWqAx8BMMxffvrLkYN1Iz-MHfp3pZ8XXU7GXVbub3zPZ3q3fGPYze-DMP/exec";
 
 // --- KATEGORİ SABİTLERİ (Eklemeniz Gereken Kısım) ---
 const KATEGORILER = { 
@@ -213,37 +229,7 @@ const DOGRU_CEVAPLAR = {
 };
 
 // A, B, C, D harflerini tutan dizi
-const optionLabels = ["A", "B", "C", "D", "E"]; 
-
-function renderQuestion(soru) {
-    const optionsContainer = document.getElementById('options');
-    optionsContainer.innerHTML = ''; 
-
-    // Örnek Soru: Soru 1, id: 1 -> name="Q1" olacak
-    const soruName = `Q${soru.id}`; 
-
-    soru.options.forEach((optionText, index) => {
-        const optionLetter = optionLabels[index]; // Örneğin: A
-        
-        // **ÖNEMLİ GÜNCELLEME BURADA:**
-        // value="${optionLetter}" eklenerek, seçilen şıkkın değeri (A, B, C, D) 
-        // form gönderildiğinde veya JS ile toplandığında elde edilebilir.
-        const uniqueId = `${soruName}_${optionLetter}`; 
-        
-        const optionHTML = `
-            <label for="${uniqueId}" class="option-label">
-                <div class="option-letter">${optionLetter}</div> 
-                <input type="radio" 
-                       id="${uniqueId}" 
-                       name="${soruName}" 
-                       value="${optionLetter}" 
-                       required>
-                <span>${optionText}</span>
-            </label>
-        `;
-        optionsContainer.innerHTML += optionHTML;
-    });
-}
+const optionLabels = ["A", "B", "C", "D", "E"];
 
 // 30 soruluk test
 const questions = [
@@ -692,13 +678,12 @@ function renderQuestion() {
 
     // Düzeltilmiş renderQuestion fonksiyonu: A/B/C/D yapısını ve value değerini doğru atar
     q.options.forEach((optionText, index) => {
-        const optionLetter = optionLabels[index]; // Örneğin: "A"
+        const optionLetter = optionLabels[index];
         const soruName = `Q${q.id}`;
         const uniqueId = `${soruName}_${optionLetter}`;
 
         const isChecked = answers[currentQuestionIndex] === optionLetter;
 
-        // **DÜZELTME 1: HTML yapısı A/B/C/D CSS yapısına uygun hale getirildi.**
         const optionHTML = `
             <label for="${uniqueId}" class="option-label">
                 <div class="option-letter">${optionLetter}</div> 
@@ -712,11 +697,10 @@ function renderQuestion() {
             </label>
         `;
         optionsEl.innerHTML += optionHTML;
-          // renderQuestion() içinde optionlar basıldıktan sonra:
-          syncSelectedUI();
-          saveState();
-
     });
+
+    syncSelectedUI();
+    saveState();
 
     errorMessageEl.classList.add("hidden");
     errorMessageEl.textContent = "";
@@ -926,6 +910,19 @@ function saveResultWithProfile(kategoriSkorlari, enGucluKategori) {
 
   // Aktif profil kaydını temizle
   try { localStorage.removeItem(PROFILE_KEY); } catch {}
+
+  // Firestore'a da gönder (db null ise sessizce atla)
+  submitToFirestore(entry);
+}
+
+/** Firestore'a sonuç gönderir. db null ise (init hatası) sessizce atlar. */
+async function submitToFirestore(entry) {
+  if (!db) return;
+  try {
+    await db.collection("sonuclar").add(entry);
+  } catch (err) {
+    console.warn("Firestore kayıt hatası:", err);
+  }
 }
 
 /** Sonuç ekranında nickname / bölüm / sınıf çiplerini oluşturur. */
@@ -955,16 +952,6 @@ function chip(icon, label, value) {
 startBtn.addEventListener("click", openRegModal);
 nextBtn.addEventListener("click", handleNext);
 
-function cevaplariTopla() {
-    const cevaplar = {};
-    const tumCevaplar = document.querySelectorAll('input[type="radio"]:checked');
-
-    tumCevaplar.forEach(input => {
-        // input.name = "Q1", input.value = "A" olacak
-        cevaplar[input.name] = input.value; 
-    });
-    return cevaplar; // Çıktı: { "Q1": "A", "Q2": "C", ... }
-}
 
 optionsEl.addEventListener("change", (e) => {
   const t = e.target;
@@ -1018,32 +1005,6 @@ function skorlariHesapla(kullaniciCevaplari, matris, dogruCevaplar) {
 }
 
 
-// 2) Aynı cihazda kullanıcıyı ayırt etmek için basit userId
-const USER_ID_KEY = "it_test_user_id_v1";
-function getOrCreateUserId() {
-  let id = localStorage.getItem(USER_ID_KEY);
-  if (!id) {
-    id = (crypto?.randomUUID?.() || ("u_" + Math.random().toString(16).slice(2)));
-    localStorage.setItem(USER_ID_KEY, id);
-  }
-  return id;
-}
-
-// 3) Sheet'e POST eden fonksiyon
-async function submitResultToGoogleSheet(payload) {
-  try {
-    // CORS'a takılmamak için no-cors:
-    // Sheet'e yazar, ama response'u JS tarafında okuyamazsın (normal).
-    await fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload),
-    });
-  } catch (err) {
-    console.error("Google Sheet submit failed:", err);
-  }
-}
 
 const afterQuizActions = document.getElementById("after-quiz-actions");
 const showResultBtn = document.getElementById("show-result-btn");
@@ -1096,18 +1057,6 @@ showResultBtn.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
   initRegModule();
   tryResumeQuiz();
-
-  const scrollBtn = document.getElementById("scrollToTest");
-  const target = document.getElementById("test-baslangic");
-
-  if (scrollBtn && target) {
-    scrollBtn.addEventListener("click", () => {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  }
 });
 
 // ============================================================
