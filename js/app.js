@@ -601,9 +601,75 @@ const resultTagEl = document.getElementById("result-tag");
 let currentQuestionIndex = 0;
 const answers = new Array(questions.length).fill(null);
 
+/** Toplam test süresi (ms). Sitedeki “~15 dk” metniyle uyumlu. */
+const TEST_DURATION_MS = 30 * 60 * 1000;
+/** Kalan süre bu değerin altına inince uyarı gösterilir. */
+const WARNING_REMAINING_MS = 5 * 60 * 1000;
 
+let quizEndTime = null;
+let fiveMinWarningShown = false;
+let timerIntervalId = null;
+
+const quizTimerDisplayEl = document.getElementById("quiz-timer-display");
+const timerWarningBannerEl = document.getElementById("timer-warning-banner");
+
+function stopQuizTimer() {
+  if (timerIntervalId != null) {
+    clearInterval(timerIntervalId);
+    timerIntervalId = null;
+  }
+}
+
+function updateTimerDisplay() {
+  if (!quizTimerDisplayEl) return;
+  if (quizEndTime == null) {
+    quizTimerDisplayEl.textContent = "—:—";
+    quizTimerDisplayEl.classList.remove("is-urgent");
+    return;
+  }
+  const remain = Math.max(0, quizEndTime - Date.now());
+  const totalSec = Math.floor(remain / 1000);
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  quizTimerDisplayEl.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  if (remain <= WARNING_REMAINING_MS && remain > 0) {
+    quizTimerDisplayEl.classList.add("is-urgent");
+  } else {
+    quizTimerDisplayEl.classList.remove("is-urgent");
+  }
+}
+
+function startQuizTimer() {
+  stopQuizTimer();
+  const tick = () => {
+    if (quizEndTime == null) return;
+    const remain = Math.max(0, quizEndTime - Date.now());
+    if (remain <= 0) {
+      stopQuizTimer();
+      if (timerWarningBannerEl) timerWarningBannerEl.classList.add("hidden");
+      quizEndTime = null;
+      fiveMinWarningShown = false;
+      saveState();
+      showResults();
+      return;
+    }
+    updateTimerDisplay();
+    if (!fiveMinWarningShown && remain <= WARNING_REMAINING_MS) {
+      fiveMinWarningShown = true;
+      if (timerWarningBannerEl) timerWarningBannerEl.classList.remove("hidden");
+      saveState();
+    }
+  };
+  tick();
+  timerIntervalId = setInterval(tick, 1000);
+}
 
 function startTest() {
+  stopQuizTimer();
+  quizEndTime = Date.now() + TEST_DURATION_MS;
+  fiveMinWarningShown = false;
+  if (timerWarningBannerEl) timerWarningBannerEl.classList.add("hidden");
+
   // Giriş ekranını kapat, testi göster
   introSection.classList.add("hidden");
   resultSection.classList.add("hidden");
@@ -611,8 +677,10 @@ function startTest() {
 
   currentQuestionIndex = 0;
   for (let i = 0; i < answers.length; i++) answers[i] = null;
+  saveState();
   renderQuestion();
   updateProgress();
+  startQuizTimer();
 }
 
 
@@ -674,17 +742,20 @@ const STORAGE_KEY = "it_yetenek_testi_state_v1";
 
 function saveState() {
   try {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ answers, currentQuestionIndex })
-    );
+    const payload = { answers, currentQuestionIndex };
+    if (quizEndTime != null) {
+      payload.quizEndTime = quizEndTime;
+      payload.fiveMinWarningShown = fiveMinWarningShown;
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   } catch (e) {}
 }
 
+/** @returns {"active"|"expired"|null} */
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
+    if (!raw) return null;
 
     const parsed = JSON.parse(raw);
 
@@ -695,7 +766,19 @@ function loadState() {
     if (Number.isInteger(parsed.currentQuestionIndex)) {
       currentQuestionIndex = Math.max(0, Math.min(parsed.currentQuestionIndex, questions.length - 1));
     }
+
+    if (typeof parsed.quizEndTime === "number") {
+      if (parsed.quizEndTime <= Date.now()) {
+        quizEndTime = null;
+        fiveMinWarningShown = false;
+        return "expired";
+      }
+      quizEndTime = parsed.quizEndTime;
+      fiveMinWarningShown = !!parsed.fiveMinWarningShown;
+      return "active";
+    }
   } catch (e) {}
+  return null;
 }
 
 function clearState() {
@@ -743,6 +826,11 @@ function handleNext() {
 }
 
 function showResults() {
+  stopQuizTimer();
+  quizEndTime = null;
+  fiveMinWarningShown = false;
+  if (timerWarningBannerEl) timerWarningBannerEl.classList.add("hidden");
+  saveState();
 
   // ➜ Test bittikten sonra "Analiz Sonucunu Gör" butonunu aç
   afterQuizActions.classList.remove("hidden");
@@ -779,15 +867,92 @@ function showResults() {
     }
     
     resultSummaryEl.innerHTML = summary;
-    resultTagEl.textContent = enGucluKategoriAdi; 
-    
-    // Not: Yüzde hesaplama (percentage) artık anlamsızdır, çünkü toplam skorlar farklı alanlara dağılmıştır.
-    // Genel skor yerine kategori bazlı skorlar gösterilmelidir.
+    resultTagEl.textContent = enGucluKategoriAdi;
 
-    // clearState(); // Sonuç gösterildikten sonra durumu temizle  //ÖNEMLİ
+    // --- Profil + skor verisini birleştirip kaydet ---
+    saveResultWithProfile(kategoriSkorlari, enGucluKategoriAdi);
+
+    // --- Sonuç ekranında profil çiplerini göster ---
+    renderResultProfileRow();
 }
 
-startBtn.addEventListener("click", startTest);
+/**
+ * Mevcut profili (currentProfile) ve hesaplanan kategori skorlarını
+ * RESULTS_KEY'deki diziye ekler. Her çalıştırmada aynı profil kaydını
+ * günceller (startedAt ile eşleşme).
+ */
+function saveResultWithProfile(kategoriSkorlari, enGucluKategori) {
+  // Profili localStorage'dan yükle (sayfa yenilenmiş olabilir)
+  if (!currentProfile) {
+    try {
+      const raw = localStorage.getItem(PROFILE_KEY);
+      if (raw) currentProfile = JSON.parse(raw);
+    } catch {}
+  }
+
+  const maxPuanHesap = () => {
+    let toplam = 0;
+    for (const k of Object.keys(AGIRLIKLANDIRMA_MATRISI)) {
+      const row = AGIRLIKLANDIRMA_MATRISI[k];
+      const max = Math.max(...Object.values(row));
+      toplam += max;
+    }
+    return toplam || 1;
+  };
+
+  const maxPuan = maxPuanHesap();
+  const skorYuzde = {};
+  for (const [kod, skor] of Object.entries(kategoriSkorlari)) {
+    skorYuzde[kod] = parseFloat(((skor / maxPuan) * 100).toFixed(1));
+  }
+
+  const entry = {
+    nickname        : currentProfile?.nickname  || "anonim",
+    egitim          : currentProfile?.egitim    || "",
+    bolum           : currentProfile?.bolum     || "",
+    startedAt       : currentProfile?.startedAt || null,
+    completedAt     : new Date().toISOString(),
+    enGucluKategori : enGucluKategori,
+    kategoriler     : KATEGORILER,
+    skorlar         : kategoriSkorlari,
+    skorlarYuzde    : skorYuzde,
+  };
+
+  const all = getAllResults();
+  // Aynı startedAt varsa üzerine yaz, yoksa ekle
+  const idx = all.findIndex(r => r.startedAt && r.startedAt === entry.startedAt);
+  if (idx >= 0) all[idx] = entry; else all.push(entry);
+  saveAllResults(all);
+
+  // Aktif profil kaydını temizle
+  try { localStorage.removeItem(PROFILE_KEY); } catch {}
+}
+
+/** Sonuç ekranında nickname / bölüm / sınıf çiplerini oluşturur. */
+function renderResultProfileRow() {
+  const rowEl = document.getElementById("result-profile-row");
+  if (!rowEl) return;
+
+  const profile = currentProfile || (() => {
+    try { return JSON.parse(localStorage.getItem(PROFILE_KEY) || "null"); } catch { return null; }
+  })();
+
+  if (!profile || !profile.nickname) { rowEl.classList.add("hidden"); return; }
+
+  rowEl.innerHTML = [
+    chip("👤", "Takma Ad", profile.nickname),
+    chip("🎓", "Sınıf",    profile.egitim),
+    chip("📚", "Bölüm",    profile.bolum),
+  ].join("");
+  rowEl.classList.remove("hidden");
+}
+
+function chip(icon, label, value) {
+  if (!value) return "";
+  return `<span class="profile-chip"><span class="profile-chip-label">${label}:</span> ${icon} ${value}</span>`;
+}
+
+startBtn.addEventListener("click", openRegModal);
 nextBtn.addEventListener("click", handleNext);
 
 function cevaplariTopla() {
@@ -884,6 +1049,39 @@ const afterQuizActions = document.getElementById("after-quiz-actions");
 const showResultBtn = document.getElementById("show-result-btn");
 // testi bitirince sonucu gösterme butonuna basılacak
 
+function tryResumeQuiz() {
+  const status = loadState();
+
+  // Aktif profili her durumda yükle (sayfa yenileme desteği)
+  if (!currentProfile) {
+    try {
+      const raw = localStorage.getItem(PROFILE_KEY);
+      if (raw) currentProfile = JSON.parse(raw);
+    } catch {}
+  }
+
+  if (status === "expired") {
+    introSection.classList.add("hidden");
+    quizSection.classList.add("hidden");
+    afterQuizActions.classList.remove("hidden");
+    showResults();
+    return;
+  }
+  if (status === "active") {
+    introSection.classList.add("hidden");
+    quizSection.classList.remove("hidden");
+    resultSection.classList.add("hidden");
+    afterQuizActions.classList.add("hidden");
+    if (fiveMinWarningShown && timerWarningBannerEl) {
+      timerWarningBannerEl.classList.remove("hidden");
+    }
+    renderQuestion();
+    updateProgress();
+    updateTimerDisplay();
+    startQuizTimer();
+  }
+}
+
 quizSection.classList.add("hidden");
 
 showResultBtn.addEventListener("click", () => {
@@ -896,6 +1094,9 @@ showResultBtn.addEventListener("click", () => {
 
 
 document.addEventListener("DOMContentLoaded", () => {
+  initRegModule();
+  tryResumeQuiz();
+
   const scrollBtn = document.getElementById("scrollToTest");
   const target = document.getElementById("test-baslangic");
 
@@ -905,6 +1106,289 @@ document.addEventListener("DOMContentLoaded", () => {
         behavior: "smooth",
         block: "start"
       });
-    });
-  }
+    });
+  }
 });
+
+// ============================================================
+// KAYIT (REGISTRATION) MODÜLÜ
+// ============================================================
+
+/** localStorage anahtarları */
+const RESULTS_KEY   = "it_test_results_v1";      // tüm sonuçlar dizisi
+const PROFILE_KEY   = "it_test_current_profile_v1"; // aktif kullanıcı profili
+
+/** Bölüm listesi */
+const BOLUMLER = [
+  "Bilgisayar Mühendisliği",
+  "Yazılım Mühendisliği",
+  "Yönetim Bilişim Sistemleri (YBS)",
+  "Matematik",
+  "İstatistik",
+  "Elektrik-Elektronik Mühendisliği",
+  "Endüstri Mühendisliği",
+  "Bilişim Sistemleri Mühendisliği",
+  "Yapay Zeka Mühendisliği",
+  "Veri Bilimi",
+  "Siber Güvenlik",
+  "Bilgisayar Bilimleri",
+  "Diğer",
+];
+
+let currentProfile = null;  // { nickname, egitim, bolum }
+let nicknameDebounceTimer = null;
+
+// ---------- Yardımcı: tüm sonuçları oku / yaz ----------
+
+function getAllResults() {
+  try {
+    const raw = localStorage.getItem(RESULTS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function saveAllResults(arr) {
+  try { localStorage.setItem(RESULTS_KEY, JSON.stringify(arr)); } catch {}
+}
+
+// ---------- Nickname benzersizlik kontrolü ----------
+
+function isNicknameTaken(nick) {
+  const all = getAllResults();
+  const lower = nick.trim().toLowerCase();
+  return all.some(r => r.nickname && r.nickname.toLowerCase() === lower);
+}
+
+// ---------- Modal DOM referansları ----------
+
+let regOverlay, regForm, inputNickname, nicknameStatus, nicknameMsg,
+    inputEgitim, egitimMsg, inputBolum, bolumMsg,
+    bolumTrigger, bolumDisplay, bolumDropdown, bolumSearchInput, bolumList,
+    regSubmitBtn;
+
+function initRegModule() {
+  regOverlay        = document.getElementById("reg-overlay");
+  regForm           = document.getElementById("reg-form");
+  inputNickname     = document.getElementById("input-nickname");
+  nicknameStatus    = document.getElementById("nickname-status");
+  nicknameMsg       = document.getElementById("nickname-msg");
+  inputEgitim       = document.getElementById("input-egitim");
+  egitimMsg         = document.getElementById("egitim-msg");
+  inputBolum        = document.getElementById("input-bolum");
+  bolumMsg          = document.getElementById("bolum-msg");
+  bolumTrigger      = document.getElementById("bolum-trigger");
+  bolumDisplay      = document.getElementById("bolum-display");
+  bolumDropdown     = document.getElementById("bolum-dropdown");
+  bolumSearchInput  = document.getElementById("bolum-search-input");
+  bolumList         = document.getElementById("bolum-list");
+  regSubmitBtn      = document.getElementById("reg-submit-btn");
+
+  buildBolumList(BOLUMLER);
+  bindBolumDropdown();
+  bindNicknameValidation();
+  bindFormSubmit();
+
+  // Overlay dışına tıklama ile kapatma iptal (istersen açarsın)
+  // regOverlay.addEventListener("click", (e) => { if (e.target === regOverlay) closeRegModal(); });
+}
+
+// ---------- Modal aç / kapat ----------
+
+function openRegModal() {
+  if (!regOverlay) return;
+  regOverlay.classList.remove("hidden");
+  requestAnimationFrame(() => regOverlay.classList.add("is-visible"));
+  document.body.style.overflow = "hidden";
+  setTimeout(() => inputNickname && inputNickname.focus(), 250);
+}
+
+function closeRegModal() {
+  regOverlay.classList.remove("is-visible");
+  document.body.style.overflow = "";
+  setTimeout(() => regOverlay.classList.add("hidden"), 230);
+}
+
+// ---------- Nickname doğrulama ----------
+
+function setNicknameState(state, msg) {
+  // state: "ok" | "error" | "checking" | ""
+  inputNickname.classList.remove("is-valid", "is-error");
+  nicknameMsg.className = "reg-field-msg";
+  nicknameStatus.textContent = "";
+  nicknameMsg.textContent = msg || "";
+
+  if (state === "ok") {
+    inputNickname.classList.add("is-valid");
+    nicknameMsg.classList.add("is-ok");
+    nicknameStatus.textContent = "✓";
+  } else if (state === "error") {
+    inputNickname.classList.add("is-error");
+    nicknameMsg.classList.add("is-error");
+    nicknameStatus.textContent = "✕";
+  } else if (state === "checking") {
+    nicknameMsg.classList.add("is-checking");
+    nicknameStatus.textContent = "…";
+  }
+}
+
+function validateNickname(value) {
+  const nick = value.trim();
+  if (!nick) {
+    setNicknameState("error", "Takma ad boş bırakılamaz.");
+    return false;
+  }
+  if (nick.length < 3) {
+    setNicknameState("error", "En az 3 karakter olmalı.");
+    return false;
+  }
+  if (!/^[A-Za-zÇçĞğİıÖöŞşÜü0-9_\-\.]+$/.test(nick)) {
+    setNicknameState("error", "Yalnızca harf, rakam ve _ - . karakterleri.");
+    return false;
+  }
+  if (isNicknameTaken(nick)) {
+    setNicknameState("error", "Bu takma ad zaten kullanılmış. Başka bir tane dene.");
+    return false;
+  }
+  setNicknameState("ok", "Kullanılabilir.");
+  return true;
+}
+
+function bindNicknameValidation() {
+  inputNickname.addEventListener("input", () => {
+    clearTimeout(nicknameDebounceTimer);
+    const val = inputNickname.value;
+    if (!val.trim()) { setNicknameState("", ""); return; }
+    setNicknameState("checking", "Kontrol ediliyor…");
+    nicknameDebounceTimer = setTimeout(() => validateNickname(val), 420);
+  });
+
+  inputNickname.addEventListener("blur", () => {
+    clearTimeout(nicknameDebounceTimer);
+    if (inputNickname.value.trim()) validateNickname(inputNickname.value);
+  });
+}
+
+// ---------- Searchable Bölüm Dropdown ----------
+
+function buildBolumList(items) {
+  bolumList.innerHTML = "";
+  if (!items.length) {
+    const li = document.createElement("li");
+    li.setAttribute("data-empty", "");
+    li.textContent = "Sonuç bulunamadı";
+    bolumList.appendChild(li);
+    return;
+  }
+  items.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    li.dataset.value = item;
+    if (inputBolum.value === item) li.classList.add("is-selected");
+    li.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      selectBolum(item);
+    });
+    bolumList.appendChild(li);
+  });
+}
+
+function selectBolum(value) {
+  inputBolum.value = value;
+  bolumDisplay.textContent = value;
+  bolumDisplay.classList.add("has-value");
+  bolumTrigger.classList.remove("is-error");
+  closeBolumDropdown();
+  bolumMsg.textContent = "";
+  bolumMsg.className = "reg-field-msg";
+  buildBolumList(BOLUMLER);  // listeyi yenile (seçili işareti)
+}
+
+function openBolumDropdown() {
+  bolumDropdown.classList.remove("hidden");
+  bolumTrigger.classList.add("is-open");
+  bolumTrigger.setAttribute("aria-expanded", "true");
+  bolumSearchInput.value = "";
+  buildBolumList(BOLUMLER);
+  bolumSearchInput.focus();
+}
+
+function closeBolumDropdown() {
+  bolumDropdown.classList.add("hidden");
+  bolumTrigger.classList.remove("is-open");
+  bolumTrigger.setAttribute("aria-expanded", "false");
+}
+
+function bindBolumDropdown() {
+  bolumTrigger.addEventListener("click", () => {
+    bolumDropdown.classList.contains("hidden") ? openBolumDropdown() : closeBolumDropdown();
+  });
+
+  bolumTrigger.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBolumDropdown(); }
+    if (e.key === "Escape") closeBolumDropdown();
+  });
+
+  bolumSearchInput.addEventListener("input", () => {
+    const q = bolumSearchInput.value.toLowerCase();
+    const filtered = BOLUMLER.filter(b => b.toLowerCase().includes(q));
+    buildBolumList(filtered);
+  });
+
+  document.addEventListener("click", (e) => {
+    const wrap = document.getElementById("bolum-searchable");
+    if (wrap && !wrap.contains(e.target)) closeBolumDropdown();
+  });
+}
+
+// ---------- Form submit ----------
+
+function bindFormSubmit() {
+  regForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let ok = true;
+
+    const nickOk = validateNickname(inputNickname.value);
+    if (!nickOk) ok = false;
+
+    if (!inputEgitim.value) {
+      inputEgitim.classList.add("is-error");
+      egitimMsg.textContent = "Eğitim durumunu seçmelisin.";
+      egitimMsg.className = "reg-field-msg is-error";
+      ok = false;
+    } else {
+      inputEgitim.classList.remove("is-error");
+      egitimMsg.textContent = "";
+      egitimMsg.className = "reg-field-msg";
+    }
+
+    if (!inputBolum.value) {
+      bolumTrigger.classList.add("is-error");
+      bolumMsg.textContent = "Bölümünü seçmelisin.";
+      bolumMsg.className = "reg-field-msg is-error";
+      ok = false;
+    } else {
+      bolumTrigger.classList.remove("is-error");
+      bolumMsg.textContent = "";
+      bolumMsg.className = "reg-field-msg";
+    }
+
+    if (!ok) return;
+
+    // Profili kaydet
+    currentProfile = {
+      nickname : inputNickname.value.trim(),
+      egitim   : inputEgitim.value,
+      bolum    : inputBolum.value,
+      startedAt: new Date().toISOString(),
+    };
+    try { localStorage.setItem(PROFILE_KEY, JSON.stringify(currentProfile)); } catch {}
+
+    closeRegModal();
+
+    // Smooth geçiş: modal kapanma animasyonu bitmeden test başlamasın
+    setTimeout(() => {
+      document.body.style.overflow = "";
+      startTest();
+    }, 240);
+  });
+}

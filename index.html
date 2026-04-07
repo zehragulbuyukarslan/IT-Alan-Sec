@@ -63,7 +63,7 @@
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-num">~15</span>
+          <span class="stat-num">~30</span>
           <span class="stat-label">Dakika</span>
         </div>
       </div>
@@ -97,7 +97,7 @@
         <div class="about-grid">
           <div class="about-text">
             <h2 class="section-title">Test nasıl çalışır?</h2>
-            <p>
+            <p class="section-sub">
               Bu yetenek testi, bilgisayar bilimleri ve bilgi teknolojileri alanında kariyer
               yolculuğuna henüz başlayan öğrencilerin <strong>hangi alana daha yatkın olduğunu</strong>
               keşfetmelerine yardımcı olmak için tasarlandı.
@@ -133,8 +133,8 @@
                 </svg>
               </div>
               <div>
-                <div class="about-card-title">~15 Dakika</div>
-                <div class="about-card-desc">30 sorudan oluşan test, ortalama 15 dakikada tamamlanır. Yarıda bırakıp kaldığın yerden devam edebilirsin.</div>
+                <div class="about-card-title">~30 Dakika</div>
+                <div class="about-card-desc">30 sorudan oluşan test; başladığında 30 dakikalık süre işler, son 5 dakikada uyarı alırsın. Yarıda bırakıp kaldığın yerden devam edebilirsin.</div>
               </div>
             </div>
             <div class="about-card">
@@ -184,7 +184,6 @@
             <h3 class="cat-title">Yazılım Geliştirme</h3>
             <p class="cat-desc">Nesne yönelimli tasarım, API mimarisi, hata yönetimi, test stratejileri ve dağıtım süreçleri.</p>
             <div class="cat-footer">
-              <span class="cat-q-badge">Q1 – Q6 · Q14 · Q20 · Q27 · Q28</span>
             </div>
           </div>
 
@@ -202,7 +201,6 @@
             <h3 class="cat-title">Veri Yönetimi</h3>
             <p class="cat-desc">Veritabanı normalizasyonu, sorgu optimizasyonu, veri modelleme, depolama sistemleri ve büyük veri altyapıları.</p>
             <div class="cat-footer">
-              <span class="cat-q-badge">Q7 – Q12 · Q26</span>
             </div>
           </div>
 
@@ -222,7 +220,6 @@
             <h3 class="cat-title">Altyapı Yönetimi</h3>
             <p class="cat-desc">Bulut mimarisi, sunucu yapılandırması, ağ yönetimi, ölçekleme stratejileri ve yük dengeleme.</p>
             <div class="cat-footer">
-              <span class="cat-q-badge">Q13 – Q18 · Q27</span>
             </div>
           </div>
 
@@ -239,7 +236,6 @@
             <h3 class="cat-title">Siber Güvenlik</h3>
             <p class="cat-desc">Güvenlik açığı analizi, saldırı vektörleri, şifreleme, kimlik doğrulama ve olay müdahale süreçleri.</p>
             <div class="cat-footer">
-              <span class="cat-q-badge">Q19 – Q24</span>
             </div>
           </div>
 
@@ -258,7 +254,6 @@
             <h3 class="cat-title">BT Süreç Yönetimi</h3>
             <p class="cat-desc">Proje yönetimi metodolojileri, paydaş iletişimi, risk analizi, MVP planlaması ve teknik borç yönetimi.</p>
             <div class="cat-footer">
-              <span class="cat-q-badge">Q3 · Q25 · Q26 · Q28 · Q29 · Q30</span>
             </div>
           </div>
 
@@ -364,7 +359,8 @@
         <h2>Teste Başlamadan Önce</h2>
         <p>
           Her sorunun diğerlerine göre daha doğruya yakın bir cevabı vardır; seçenekleri dikkatlice oku
-          ve sana en mantıklı geleni işaretle. Test, temel teknik bilginin yanında
+          ve sana en mantıklı geleni işaretle. Teste başladığında <strong>30 dakikalık</strong> süre işler;
+          son 5 dakikada uyarı alırsın, süre bitince test otomatik tamamlanır. Test, temel teknik bilginin yanında
           <strong>problem çözme ve mantık yürütme becerini</strong> de ölçmeyi hedefler.
         </p>
         <div class="intro-methodology">
@@ -384,13 +380,24 @@
       <div id="quiz-section" class="hidden">
 
         <div class="quiz-header">
-          <div class="progress">
-            <span id="question-text-num" class="progress-label">Soru 1 / 30</span>
-            <span id="percent-text" class="progress-percent">0%</span>
+          <div class="quiz-header-row">
+            <div class="progress">
+              <span id="question-text-num" class="progress-label">Soru 1 / 30</span>
+              <span id="percent-text" class="progress-percent">0%</span>
+            </div>
+            <div class="quiz-timer" aria-live="polite">
+              <span class="quiz-timer-label">Kalan süre</span>
+              <span id="quiz-timer-display" class="quiz-timer-display">15:00</span>
+            </div>
           </div>
           <div class="progress-bar">
             <div id="progress-bar-inner" class="progress-bar-inner"></div>
           </div>
+        </div>
+
+        <div id="timer-warning-banner" class="timer-warning-banner hidden" role="alert">
+          <span class="timer-warning-icon" aria-hidden="true">⏱</span>
+          <span>Son 5 dakikaya girdin. Süre dolunca test otomatik olarak tamamlanır ve yanıtların kaydedilir.</span>
         </div>
 
         <div id="question-card" class="question-card">
@@ -427,6 +434,8 @@
 
       <!-- Sonuç bölümü -->
       <div id="result-section" class="hidden-result">
+        <!-- Profil satırı (sonuç ekranı üstünde gösterilir) -->
+        <div id="result-profile-row" class="result-profile-row hidden"></div>
         <div class="result-header">
           <span class="result-eyebrow">Analiz Tamamlandı</span>
           <h1>Test Sonucun</h1>
@@ -451,6 +460,110 @@
 
   <!-- progress-text için backward-compat alias -->
   <div id="progress-text" style="display:none"></div>
+
+  <!-- ===== KAYIT MODAL ===== -->
+  <div id="reg-overlay" class="reg-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="reg-title">
+    <div class="reg-card">
+
+      <div class="reg-header">
+        <div class="reg-badge">Akademik Araştırma</div>
+        <h2 class="reg-title" id="reg-title">Teste Başlamadan Önce</h2>
+        <p class="reg-subtitle">
+          Profil bilgilerin tamamen anonimdir ve yalnızca bölüm/sınıf bazlı yetenek analizi için kullanılır.
+        </p>
+      </div>
+
+      <form id="reg-form" novalidate autocomplete="off">
+
+        <!-- Nickname -->
+        <div class="reg-field" id="field-nickname">
+          <label class="reg-label" for="input-nickname">
+            Takma Ad (Nickname)
+            <span class="reg-label-hint">Gerçek isim gerekmez</span>
+          </label>
+          <div class="reg-input-wrap">
+            <input
+              type="text"
+              id="input-nickname"
+              class="reg-input"
+              placeholder="örn. Turing99"
+              maxlength="24"
+              spellcheck="false"
+              autocomplete="off"
+            />
+            <span class="reg-input-status" id="nickname-status" aria-live="polite"></span>
+          </div>
+          <p class="reg-field-msg" id="nickname-msg"></p>
+        </div>
+
+        <!-- Eğitim Durumu -->
+        <div class="reg-field" id="field-egitim">
+          <label class="reg-label" for="input-egitim">Eğitim Durumu</label>
+          <div class="reg-select-wrap">
+            <select id="input-egitim" class="reg-select">
+              <option value="">— Seçiniz —</option>
+              <option value="Hazırlık">Hazırlık</option>
+              <option value="1. Sınıf">1. Sınıf</option>
+              <option value="2. Sınıf">2. Sınıf</option>
+              <option value="3. Sınıf">3. Sınıf</option>
+              <option value="4. Sınıf">4. Sınıf</option>
+              <option value="Mezun">Mezun</option>
+              <option value="Sektör Çalışanı">Sektör Çalışanı</option>
+            </select>
+          </div>
+          <p class="reg-field-msg" id="egitim-msg"></p>
+        </div>
+
+        <!-- Bölüm (Searchable) -->
+        <div class="reg-field" id="field-bolum">
+          <label class="reg-label" for="bolum-search-input">Bölüm</label>
+          <div class="reg-searchable" id="bolum-searchable">
+            <div class="reg-searchable-trigger" id="bolum-trigger" tabindex="0" role="combobox"
+                 aria-expanded="false" aria-haspopup="listbox" aria-controls="bolum-listbox">
+              <span id="bolum-display" class="reg-searchable-display">— Bölüm seçiniz —</span>
+              <svg class="reg-searchable-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="reg-searchable-dropdown hidden" id="bolum-dropdown" role="listbox" aria-label="Bölüm seçimi">
+              <div class="reg-searchable-search">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="reg-search-icon">
+                  <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/>
+                  <path d="M9.5 9.5l2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                </svg>
+                <input type="text" id="bolum-search-input" class="reg-searchable-input" placeholder="Ara..." autocomplete="off"/>
+              </div>
+              <ul class="reg-searchable-list" id="bolum-list"></ul>
+            </div>
+          </div>
+          <input type="hidden" id="input-bolum" value=""/>
+          <p class="reg-field-msg" id="bolum-msg"></p>
+        </div>
+
+        <!-- Aydınlatma Metni -->
+        <div class="reg-notice">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" class="reg-notice-icon">
+            <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M7.5 5v.5M7.5 7.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <p>
+            Verileriniz akademik bir araştırma kapsamında <strong>anonim</strong> olarak kullanılacaktır.
+            Bu bilgiler, hangi sınıf ve bölümlerin hangi alanlara daha yatkın olduğunu bilimsel olarak
+            kanıtlamak amacıyla toplanmaktadır.
+          </p>
+        </div>
+
+        <button type="submit" class="btn btn-primary reg-submit" id="reg-submit-btn">
+          <span>Devam Et ve Testi Başlat</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+      </form>
+    </div>
+  </div>
+  <!-- /KAYIT MODAL -->
 
   <script src="js/app.js"></script>
 </body>
